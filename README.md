@@ -1,6 +1,7 @@
 # About the Project
 
 **Campus Wellness Challenge**
+
 A web application designed to help promote health among the students and staffs on campus
 through a series of wellness challenges. This website allows, coordinators to create and 
 manage challenges that encourages participants to work on their physical and mental health.
