@@ -16,6 +16,8 @@ friendly competition trhough the leaderboards and forums.
 - **Uploading Challenge Resources for Coordinators**
 - **Challenge List**
 - **Challenge Details**
+- **Leaderboard**
+- **Forums**
 
 ## Team Members
 - Julia Hu
