@@ -8,20 +8,32 @@
 */
 
 import React from 'react'
-import {useState, useEffect} from 'react'
-import { FaUser } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { FaUserPlus } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { register, reset } from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Icon,
+  Link
+} from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import '../styles/pages.css'
 
-function Register() {
+function P_Register() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        password2: ''
+        password2: '',
     })
     
     const {name, email, password, password2} = formData
@@ -32,7 +44,6 @@ function Register() {
     const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)   
 
     useEffect(() => {
-
         if (isError) {
             toast.error(message)
         }
@@ -42,7 +53,6 @@ function Register() {
         }
 
         dispatch(reset())
-
     }, [user, isError, isSuccess, message, navigate, dispatch])
 
     const onChange = (e) => {
@@ -54,82 +64,107 @@ function Register() {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        
         if (password !== password2) {
             toast.error('Passwords do not match')
         } else {
             const userData = {
                 name,
                 email,
-                password
+                password,
+                role: 'participant'
             }
             dispatch(register(userData))
-        }   
+        }
     }
 
     if (isLoading) {
         return <Spinner />
     }
 
-return <>
-    <section className='heading'>
-        <h1>
-            <FaUser /> Register
-        </h1>
-        <p>Please create an account</p>
-    </section>
-    <section className='form'>
-        <form onSubmit={onSubmit}>
-            <div className='form-group'>
-                <input 
-                    type='text' 
-                    className='form-control' 
-                    id='name' 
-                    name='name' 
-                    value={name} 
-                    placeholder='Enter your name' 
-                    onChange={onChange}
-                />
-            </div>
-            <div className='form-group'>
-                <input 
-                    type='text' 
-                    className='form-control' 
-                    id='email' 
-                    name='email' 
-                    value={email} 
-                    placeholder='Enter your email' 
-                    onChange={onChange}
-                />
-            </div>
-            <div className='form-group'>
-                <input 
-                    type='password' 
-                    className='form-control' 
-                    id='password' 
-                    name='password' 
-                    value={password} 
-                    placeholder='Enter password' 
-                    onChange={onChange}
-                />
-            </div>
-            <div className='form-group'>
-                <input 
-                    type='password' 
-                    className='form-control' 
-                    id='password2' 
-                    name='password2' 
-                    value={password2} 
-                    placeholder='Confirm password' 
-                    onChange={onChange}
-                />
-            </div>
-            <div className='form-group'>
-                <button type='submit' className='btn btn-block'>Submit</button>
-            </div>
-        </form>
-    </section>
-</>
+    return (
+        <Container component="main" maxWidth="md" className="page-container">
+            <Paper className="auth-container">
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                    <Typography component="h1" variant="h4" className="auth-title" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Icon sx={{ color: '#1976d2', fontSize: '1.5rem' }}>
+                            <FaUserPlus />
+                        </Icon>
+                        Register as Participant
+                    </Typography>
+                </Box>
+                
+                <Typography variant="body1" align="center" sx={{ mb: 3, color: 'text.secondary' }}>
+                    Create a participant account and start tracking your wellness goals
+                </Typography>
+
+                <Box component="form" onSubmit={onSubmit} className="auth-form">
+                    <TextField
+                        fullWidth
+                        label="Name"
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={name}
+                        onChange={onChange}
+                        required
+                        autoFocus
+                    />
+
+                    <TextField
+                        fullWidth
+                        label="Email"
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={onChange}
+                        required
+                    />
+                    
+                    <TextField
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={password}
+                        onChange={onChange}
+                        required
+                    />
+
+                    <TextField
+                        fullWidth
+                        label="Confirm Password"
+                        type="password"
+                        id="password2"
+                        name="password2"
+                        value={password2}
+                        onChange={onChange}
+                        required
+                    />
+
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        className="primary-button"
+                    >
+                        Register
+                    </Button>
+
+                    <Box sx={{ mt: 2, textAlign: 'center' }}>
+                        <Typography variant="body2" color="text.secondary">
+                            Already have an account?{' '}
+                            <Link component={RouterLink} to="/login" color="primary">
+                                Sign in here
+                            </Link>
+                        </Typography>
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
+    )
 }
 
-export default Register
+export default P_Register
