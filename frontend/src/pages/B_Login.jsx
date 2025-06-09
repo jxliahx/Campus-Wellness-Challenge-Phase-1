@@ -22,8 +22,10 @@ import {
   TextField,
   Button,
   Box,
-  Icon
+  Icon,
+  Link
 } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
 import '../styles/pages.css'
 
 function Login() {
@@ -120,6 +122,15 @@ function Login() {
                     >
                         Login
                     </Button>
+
+                    <Box sx={{ mt: 2, textAlign: 'center' }}>
+                        <Typography variant="body2" color="text.secondary">
+                            Don't have an account yet?{' '}
+                            <Link component={RouterLink} to="/register" color="primary">
+                                Sign up here
+                            </Link>
+                        </Typography>
+                    </Box>
                 </Box>
             </Paper>
         </Container>
