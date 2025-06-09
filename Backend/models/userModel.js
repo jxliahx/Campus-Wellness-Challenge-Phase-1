@@ -18,6 +18,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please add a password"],
     },
+
+    role: {
+        type: String,
+        enum: ['coordinator', 'participant'],
+        default: 'participant',
+        required: true
+    }
 },
 {
     timestamps: true 

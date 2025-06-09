@@ -31,4 +31,24 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 })
 
-module.exports = { protect }
+// Check if user is a coordinator
+const isCoordinator = asyncHandler(async (req, res, next) => {
+    if (req.user && req.user.role === 'coordinator') {
+        next()
+    } else {
+        res.status(403)
+        throw new Error('Not authorized as a coordinator')
+    }
+})
+
+// Check if user is a participant
+const isParticipant = asyncHandler(async (req, res, next) => {
+    if (req.user && req.user.role === 'participant') {
+        next()
+    } else {
+        res.status(403)
+        throw new Error('Not authorized as a participant')
+    }
+})
+
+module.exports = { protect, isCoordinator, isParticipant }

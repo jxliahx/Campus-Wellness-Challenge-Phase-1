@@ -7,7 +7,7 @@ const User = require('../models/userModel')
 // @route POST /api/users
 // @access Public
 const registerUser = asyncHandler(async(req, res) => {
-    const { name, email, password } = req.body
+    const { name, email, password, role } = req.body
 
     if(!name || !email || !password) {
         res.status(400)
@@ -30,7 +30,8 @@ const registerUser = asyncHandler(async(req, res) => {
     const user = await User.create({
         name,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        role: role || 'participant' // Default to participant if no role specified
     })
 
     if(user) {  
@@ -38,6 +39,7 @@ const registerUser = asyncHandler(async(req, res) => {
             _id: user.id,
             name: user.name,
             email: user.email,
+            role: user.role,
             token: generateToken(user._id)
         })
     } else {
@@ -60,26 +62,26 @@ const loginUser = asyncHandler(async(req, res) => {
             _id: user.id,
             name: user.name,
             email: user.email,
+            role: user.role,
             token: generateToken(user._id)
         })
     } else {
         res.status(401)
         throw new Error('Invalid credentials')
     }
-
-    res.json({message: 'Login user'})
 })
 
 // @desc Get user data
 // @route GET /api/users/me
 // @access Private
 const getMe = asyncHandler(async(req, res) => {
-    const { _id, name, email } = await User.findById(req.user.id)
+    const { _id, name, email, role } = await User.findById(req.user.id)
 
     res.status(200).json({
         id: _id,
         name,
         email,
+        role
     })
 })
 
