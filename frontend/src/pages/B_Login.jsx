@@ -8,13 +8,23 @@
 */
 
 import React from 'react'
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { FaSignInAlt } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { login, reset } from '../features/auth/authSlice'
-import Spinner from '../components/Spinner'     
+import Spinner from '../components/Spinner'
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Icon
+} from '@mui/material'
+import '../styles/pages.css'
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -30,7 +40,6 @@ function Login() {
     const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)   
 
     useEffect(() => {
-
         if (isError) {
             toast.error(message)
         }
@@ -40,7 +49,6 @@ function Login() {
         }
 
         dispatch(reset())
-
     }, [user, isError, isSuccess, message, navigate, dispatch])
 
     const onChange = (e) => {
@@ -63,43 +71,59 @@ function Login() {
         return <Spinner />
     }
 
-return <>
-    <section className='heading'>
-        <h1>
-            <FaSignInAlt /> Login
-        </h1>
-        <p>Login and start setting goals</p>
-    </section>
-    <section className='form'>
-        <form onSubmit={onSubmit}>
-            <div className='form-group'>
-                <input 
-                    type='text' 
-                    className='form-control' 
-                    id='email' 
-                    name='email' 
-                    value={email} 
-                    placeholder='Enter your email' 
-                    onChange={onChange}
-                />
-            </div>
-            <div className='form-group'>
-                <input 
-                    type='password' 
-                    className='form-control' 
-                    id='password' 
-                    name='password' 
-                    value={password} 
-                    placeholder='Enter password' 
-                    onChange={onChange}
-                />
-            </div>
-            <div className='form-group'>
-                <button type='submit' className='btn btn-block'>Submit</button>
-            </div>
-        </form>
-    </section>
-</>
+    return (
+        <Container component="main" maxWidth="md" className="page-container">
+            <Paper className="auth-container">
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                    <Typography component="h1" variant="h4" className="auth-title" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Icon sx={{ color: '#1976d2', fontSize: '1.5rem' }}>
+                            <FaSignInAlt />
+                        </Icon>
+                        Login
+                    </Typography>
+                </Box>
+                
+                <Typography variant="body1" align="center" sx={{ mb: 3, color: 'text.secondary' }}>
+                    Login and start setting goals
+                </Typography>
+
+                <Box component="form" onSubmit={onSubmit} className="auth-form">
+                    <TextField
+                        fullWidth
+                        label="Email"
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={onChange}
+                        required
+                        autoFocus
+                    />
+                    
+                    <TextField
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={password}
+                        onChange={onChange}
+                        required
+                    />
+
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        className="primary-button"
+                    >
+                        Login
+                    </Button>
+                </Box>
+            </Paper>
+        </Container>
+    )
 }
 
 export default Login

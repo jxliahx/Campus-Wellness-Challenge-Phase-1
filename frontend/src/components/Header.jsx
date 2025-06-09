@@ -3,6 +3,15 @@ import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, reset } from '../features/auth/authSlice'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  Icon
+} from '@mui/material'
+import '../styles/pages.css'
 
 function Header() {
     const navigate = useNavigate()
@@ -16,33 +25,54 @@ function Header() {
     }
 
     return (
-        <header className='header'>
-            <div className='logo'>
-                <Link to='/'>GoalSetter</Link>
-            </div>
-            <ul>
-                {user ? (
-                    <li>
-                        <button className='btn' onClick={onLogout}>
-                            <FaSignOutAlt /> Logout
-                        </button>
-                    </li>
-                ) : (
-                    <>
-                        <li>
-                            <Link to='/login'>
-                        <FaSignInAlt /> Login
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/register'>
-                        <FaUser /> Register
-                    </Link>
-                        </li>
-                    </>
-                )}
-            </ul>
-        </header>
+        <AppBar 
+            position="fixed" 
+            className="header-container"
+            sx={{ 
+                width: '100vw',
+                left: 0,
+                right: 0
+            }}
+        >
+            <Toolbar className="header-content" disableGutters>
+                <Link to="/" className="logo-link">
+                    <Typography variant="h6" component="div">
+                        Campus Wellness Challenge
+                    </Typography>
+                </Link>
+
+                <Box component="nav">
+                    {user ? (
+                        <Button
+                            onClick={onLogout}
+                            className="header-button"
+                            startIcon={<Icon><FaSignOutAlt /></Icon>}
+                        >
+                            Logout
+                        </Button>
+                    ) : (
+                        <Box sx={{ display: 'flex', gap: 2 }}>
+                            <Button
+                                component={Link}
+                                to="/login"
+                                className="header-button"
+                                startIcon={<Icon><FaSignInAlt /></Icon>}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                component={Link}
+                                to="/register"
+                                className="header-button"
+                                startIcon={<Icon><FaUser /></Icon>}
+                            >
+                                Register
+                            </Button>
+                        </Box>
+                    )}
+                </Box>
+            </Toolbar>
+        </AppBar>
     )
 }
 
