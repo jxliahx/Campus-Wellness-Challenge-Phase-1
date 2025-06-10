@@ -80,7 +80,7 @@ function Header() {
                                 </Button>
                                 <Button
                                     component={Link}
-                                    to="/register"
+                                    to="/pick-role"
                                     className="header-button"
                                     startIcon={<Icon><FaUser /></Icon>}
                                 >
