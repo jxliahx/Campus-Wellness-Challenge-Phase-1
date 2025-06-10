@@ -40,7 +40,7 @@ function Leaderboard() {
     const restOfList = leaderboardData.slice(3)
 
     return (
-        <Container component="main" maxWidth="md" className="page-container">
+        <Container component="main" maxWidth="md" className="page-container" sx={{pt: 10}}>
             <Typography component="h1" variant="h4" className="page-title" sx={{ mb: 4 }}>
                 Leaderboard
             </Typography>
@@ -147,7 +147,7 @@ function Leaderboard() {
             </Box>
 
             {/* Rest of the leaderboard */}
-            <Paper elevation={3} sx={{ p: 2 }}>
+            <Paper elevation={3} sx={{ p: 2, width:'75%' }}>
                 <List>
                     {restOfList.map((user) => (
                         <ListItem 
