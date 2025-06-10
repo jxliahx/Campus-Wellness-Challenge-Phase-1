@@ -9,15 +9,19 @@ As well as allow, participants to join challenges, track their progress, and eng
 friendly competition trhough the leaderboards and forums.
 
 ## Features
-- **Accout Creation for Both Participants & Coordinators**
+**Both**
 - **Login & Logouts**
-- **Creating Wellness Challenges for Coordinators**
-- **Enrolling Participants in Challenges for Coordiantors**
-- **Uploading Challenge Resources for Coordinators**
-- **Challenge List**
-- **Challenge Details**
 - **Leaderboard**
 - **Forums**
+- **Accout Creation**
+- **Challenge List**
+- **Challenge Details**
+
+**Coordinators**
+- **Create Wellness Challenges**
+- **Enroll Participants in Challenges**
+- **Upload Challenge Resources**
+
 
 ## Team Members
 - Julia Hu

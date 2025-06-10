@@ -1,3 +1,11 @@
+/*
+    CS 731/490AP Spring 2025
+    Group Members:
+                Julia Hu
+                Anna Chu
+    File Name: Header.jsx
+    For: Guests
+*/
 import React from 'react'
 import { FaSignInAlt, FaSignOutAlt, FaUser, FaHome, FaTrophy } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
