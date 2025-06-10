@@ -71,7 +71,7 @@ function Leaderboard() {
                 >
                     <Icon sx={{ 
                         position: 'absolute',
-                        top: -20,
+                        top: -40,
                         color: '#C0C0C0',
                         fontSize: '2rem'
                     }}>
@@ -101,7 +101,7 @@ function Leaderboard() {
                 >
                     <Icon sx={{ 
                         position: 'absolute',
-                        top: -20,
+                        top: -50,
                         color: '#FFD700',
                         fontSize: '2.5rem'
                     }}>
@@ -131,7 +131,7 @@ function Leaderboard() {
                 >
                     <Icon sx={{ 
                         position: 'absolute',
-                        top: -20,
+                        top: -30,
                         color: '#CD7F32',
                         fontSize: '1.5rem'
                     }}>
