@@ -12,6 +12,7 @@ import {
   Icon
 } from '@mui/material'
 import '../styles/pages.css'
+import logo from '../images/logo.png'
 
 function Header() {
     const navigate = useNavigate()
@@ -36,7 +37,7 @@ function Header() {
         >
             <Toolbar className="header-content" disableGutters>
                 <Link to="/" className="logo-link">
-                    <img src="../../public/logo.png" alt="Logo" style={{height: '30px'}}/>
+                    <img src={logo} alt="Logo" style={{height: '30px'}}/>
                     <Typography variant="h6" component="div">
                         Campus Wellness Challenge
                     </Typography>
