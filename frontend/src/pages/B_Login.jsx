@@ -126,7 +126,7 @@ function Login() {
                     <Box sx={{ mt: 2, textAlign: 'center' }}>
                         <Typography variant="body2" color="text.secondary">
                             Don't have an account yet?{' '}
-                            <Link component={RouterLink} to="/register" color="primary">
+                            <Link component={RouterLink} to="/pick-role" color="primary">
                                 Sign up here
                             </Link>
                         </Typography>
