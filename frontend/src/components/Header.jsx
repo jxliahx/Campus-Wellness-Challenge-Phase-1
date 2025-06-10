@@ -36,7 +36,7 @@ function Header() {
         >
             <Toolbar className="header-content" disableGutters>
                 <Link to="/" className="logo-link">
-                    <Icon><FaHome /></Icon>
+                    <img src="../../public/logo.png" alt="Logo" style={{height: '30px'}}/>
                     <Typography variant="h6" component="div">
                         Campus Wellness Challenge
                     </Typography>
