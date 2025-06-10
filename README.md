@@ -13,9 +13,9 @@ friendly competition trhough the leaderboards and forums.
 - **Login & Logouts**
 - **Leaderboard**
 - **Forums**
-- **Accout Creation**, seperate for both Coordinator and Participants
-- **Challenge List**, seperate for both Coordinator and Participants
-- **Challenge Details**, seperate for both Coordinator and Participants
+- **Accout Creation**
+- **Challenge List**
+- **Challenge Details**
 
 **Coordinators**
 - **Create Wellness Challenges**
