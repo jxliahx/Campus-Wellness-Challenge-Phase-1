@@ -1,0 +1,10 @@
+clone repository to local computer:
+git clone [github link]
+
+get most up to date code and merge with your local code:
+git pull
+
+upload code to repository:
+git add . 
+git commit -m 'insert message here - quick comment on what you are adding to the repository'
+git push
