@@ -71,6 +71,7 @@ function Register() {
                 name,
                 email,
                 password,
+                role: 'coordinator'
             }
             dispatch(register(userData))
         }

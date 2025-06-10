@@ -27,7 +27,19 @@ const userSchema = new mongoose.Schema({
     }
 },
 {
-    timestamps: true 
+    timestamps: true,
+    collection: 'Participants'  // Updated capitalization
 }); 
 
-module.exports = mongoose.model("User", userSchema);
+// Add pre-save middleware to log when a user is being saved
+userSchema.pre('save', function(next) {
+    console.log('Saving user to collection:', this.collection.name);
+    next();
+});
+
+const User = mongoose.model("User", userSchema);
+
+// Log when the model is created
+console.log('User model created with collection name:', User.collection.name);
+
+module.exports = User;

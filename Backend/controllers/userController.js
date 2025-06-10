@@ -26,6 +26,8 @@ const registerUser = asyncHandler(async(req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)   
 
+    console.log('Creating new user with role:', role || 'participant');
+    
     // Create user
     const user = await User.create({
         name,
@@ -33,6 +35,14 @@ const registerUser = asyncHandler(async(req, res) => {
         password: hashedPassword,
         role: role || 'participant' // Default to participant if no role specified
     })
+
+    console.log('User created successfully:', {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        collection: user.collection.name
+    });
 
     if(user) {  
         res.status(201).json({
@@ -85,6 +95,14 @@ const getMe = asyncHandler(async(req, res) => {
     })
 })
 
+// @desc Get all users
+// @route GET /api/users
+// @access Private
+const getUsers = asyncHandler(async(req, res) => {
+    const users = await User.find({}).select('-password')
+    res.status(200).json(users)
+})
+
 // Generate JWT
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -96,5 +114,6 @@ module.exports = {
     registerUser,
     loginUser,
     getMe,
+    getUsers
 }
 

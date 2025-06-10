@@ -10,15 +10,22 @@ connectDB()
 
 const app = express()
 
-app.use(cors())
+// CORS configuration
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/api/Challenges', require('./routes/goalRoutes'))
-app.use('/api/Participants', require('./routes/userRoutes'))
+app.use('/api/challenges', require('./routes/goalRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 
 app.use(errorHandler)
 
 app.listen(port, () => console.log(`Server started on port ${port}`))
+
+const MONGO_URI = process.env.MONGO_URI || 'your_fallback_connection_string';
 
 
