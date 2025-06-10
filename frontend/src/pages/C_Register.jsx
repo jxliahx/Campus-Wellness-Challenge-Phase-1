@@ -88,7 +88,7 @@ function Register() {
                         <Icon sx={{ color: '#1976d2', fontSize: '1.5rem' }}>
                             <FaUserPlus />
                         </Icon>
-                        Register
+                        Register as Coordinator
                     </Typography>
                 </Box>
                 

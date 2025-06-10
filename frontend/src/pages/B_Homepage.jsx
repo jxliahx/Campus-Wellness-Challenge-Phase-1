@@ -46,7 +46,7 @@ function Homepage() {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => navigate('/register')}
+            onClick={() => navigate('/pick-role')}
             size="large"
             className="secondary-button"
           >
