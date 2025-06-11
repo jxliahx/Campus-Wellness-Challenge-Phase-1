@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 // Layout
 import Header from './components/Header'
-import './styles/pages.css'
 
 // Pages
 import Homepage from './pages/B_Homepage'
@@ -17,6 +16,7 @@ import PickRole from './pages/B_PickRole'
 
 // Logged in users
 import PrivateRoute from './components/PrivateRoute'
+import './styles/pages.css'
 
 // Fonts
 import '@fontsource/roboto/300.css';
