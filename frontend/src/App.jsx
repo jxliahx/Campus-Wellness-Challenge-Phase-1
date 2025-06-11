@@ -13,6 +13,7 @@ import CoordinatorRegister from './pages/C_Register'
 import CoordinatorDashboard from './pages/C_Dashboard'
 import ParticipantDashboard from './pages/P_Dashboard'
 import PickRole from './pages/B_PickRole'
+import CreateChallenge from './pages/C_CreateChallenge'
 
 // Logged in users
 import PrivateRoute from './components/PrivateRoute'
@@ -36,12 +37,19 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/coordinator-register' element={<CoordinatorRegister />} />
             <Route path='/pick-role' element={<PickRole />} />
+
             <Route path='/coordinator-dashboard' element={<PrivateRoute />}>
               <Route path='/coordinator-dashboard' element={<CoordinatorDashboard />} />
             </Route>
+
+            <Route path="/create-challenge" element={<PrivateRoute />}>
+              <Route path="/create-challenge" element={<CreateChallenge />} />
+            </Route>
+
             <Route path='/participant-dashboard' element={<PrivateRoute />}>
               <Route path='/participant-dashboard' element={<ParticipantDashboard />} />
             </Route>
+
           </Routes>
         </div>
       </Router>
