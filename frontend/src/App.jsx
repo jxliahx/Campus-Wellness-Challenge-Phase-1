@@ -15,6 +15,7 @@ import ParticipantDashboard from './pages/P_Dashboard'
 import PickRole from './pages/B_PickRole'
 import CreateChallenge from './pages/C_CreateChallenge'
 import Leaderboard from './pages/B_Leaderboard'
+import UploadResource from './pages/C_UploadResource'
 
 // Logged in users
 import PrivateRoute from './components/PrivateRoute'
@@ -51,8 +52,12 @@ function App() {
               <Route path='/participant-dashboard' element={<ParticipantDashboard />} />
             </Route>
 
-            <Route path='leaderboard' element={<PrivateRoute />}>
+            <Route path='/leaderboard' element={<PrivateRoute />}>
               <Route path='/leaderboard' element={<Leaderboard />} />
+            </Route>
+
+            <Route path='/upload-resource' element={<PrivateRoute />}>
+              <Route path='/upload-resource' element={<UploadResource />} />
             </Route>
 
           </Routes>

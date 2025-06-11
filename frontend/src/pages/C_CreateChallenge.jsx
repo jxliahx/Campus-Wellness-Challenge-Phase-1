@@ -23,6 +23,7 @@ import {
   Select,
   MenuItem
 } from '@mui/material'
+import {useNavigate} from 'react-router-dom'
 import { FaPlusCircle } from 'react-icons/fa'
 import '../styles/pages.css'
 
@@ -50,8 +51,10 @@ function CreateChallenge() {
         console.log('Challenge Create: ', challengeData)
     }
 
+    const navigate = useNavigate()
+
     return (
-        <Container componenet="main" maxWidth="md" className="page-container">
+        <Container component="main" maxWidth="md" className="page-container">
             <Paper className="auth-container">
                 <Box>
                     <Typography>
@@ -99,7 +102,7 @@ function CreateChallenge() {
                     <Grid container spacing={2}>
 
                         {/* Duration of Challenge */}
-                        <Grid itrm xs={6}>
+                        <Grid item xs={6}>
                             <TextField
                                 fullWidth
                                 label="(e.g. 30 days)"
@@ -119,7 +122,7 @@ function CreateChallenge() {
                                 color="primary"
                                 sx={{height: '100%'}}
                                 // LATER: ADD CODE TO SUBMIT THE DATA 
-                                onClick={() => console.log('Upload Resources')}
+                                onClick={() => navigate('/upload-resource')}
                             >
                             Upload Resources
                             </Button>
@@ -130,7 +133,7 @@ function CreateChallenge() {
                         type="submit"
                         variant="contained"
                         size="large"
-                        classNAme="primary-button"
+                        className="primary-button"
                         // LATER: LINK TO CHALLENGE LIST PAGE
                     >
                     Share Challenge
