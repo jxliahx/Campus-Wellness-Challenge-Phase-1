@@ -17,14 +17,41 @@ import {
     Button,
     Box,
     Divider,
-    Avatar
+    Avatar,
+    Grid,
+    Card,
+    CardContent,
+    LinearProgress,
+    CardActionArea
 } from '@mui/material'
-import { FaUser, FaPlus, FaUserPlus } from 'react-icons/fa'
+import { FaUser, FaPlus, FaUserPlus, FaTrophy } from 'react-icons/fa'
 import '../styles/pages.css'
 
 function C_Dashboard() {
     const { user } = useSelector((state) => state.auth)
     const navigate = useNavigate()
+
+    // Mock data for created challenges - replace with actual data from your backend
+    const createdChallenges = [
+        {
+            id: 1,
+            name: 'Daily Steps Challenge',
+            description: 'Walk 10,000 steps every day',
+            progress: 75,
+            startDate: '2024-03-01',
+            endDate: '2024-03-31',
+            participants: 25
+        },
+        {
+            id: 2,
+            name: 'Weekly Workout Challenge',
+            description: 'Complete 3 workouts per week',
+            progress: 50,
+            startDate: '2024-03-01',
+            endDate: '2024-03-31',
+            participants: 15
+        }
+    ]
 
     return (
         <Container component="main" maxWidth="md" className="page-container">
@@ -50,6 +77,61 @@ function C_Dashboard() {
                             Role: Coordinator
                         </Typography>
                     </Box>
+                </Box>
+
+                {/* Created Challenges Section */}
+                <Box sx={{ mb: 4 }}>
+                    <Typography variant="h6" component="h2" sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: 1,
+                        color: '#1976d2',
+                        mb: 2
+                    }}>
+                        <FaTrophy />
+                        Your Challenges
+                    </Typography>
+                    <Grid container spacing={2}>
+                        {createdChallenges.map((challenge) => (
+                            <Grid item xs={12} sm={6} key={challenge.id}>
+                                <Card>
+                                    <CardActionArea onClick={() => navigate('/view-challenge')}>
+                                        <CardContent>
+                                            <Typography variant="h6" component="h3" gutterBottom>
+                                                {challenge.name}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary" paragraph>
+                                                {challenge.description}
+                                            </Typography>
+                                            <Box sx={{ mb: 2 }}>
+                                                <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                    Progress: {challenge.progress}%
+                                                </Typography>
+                                                <LinearProgress 
+                                                    variant="determinate" 
+                                                    value={challenge.progress} 
+                                                    sx={{ 
+                                                        height: 8, 
+                                                        borderRadius: 4,
+                                                        backgroundColor: '#e0e0e0',
+                                                        '& .MuiLinearProgress-bar': {
+                                                            backgroundColor: '#1976d2'
+                                                        }
+                                                    }}
+                                                />
+                                            </Box>
+                                            <Typography variant="caption" color="text.secondary" display="block">
+                                                {challenge.startDate} to {challenge.endDate}
+                                            </Typography>
+                                            <Typography variant="caption" color="text.secondary">
+                                                {challenge.participants} participants
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
                 </Box>
 
                 {/* Action Buttons Section */}

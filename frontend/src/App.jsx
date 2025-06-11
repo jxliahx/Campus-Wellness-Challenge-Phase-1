@@ -12,6 +12,7 @@ import Register from './pages/P_Register'
 import CoordinatorRegister from './pages/C_Register'
 import CoordinatorDashboard from './pages/C_Dashboard'
 import ParticipantDashboard from './pages/P_Dashboard'
+import ViewChallenge from './pages/C_ViewChallenge'
 import PickRole from './pages/B_PickRole'
 import CreateChallenge from './pages/C_CreateChallenge'
 import Leaderboard from './pages/B_Leaderboard'
@@ -50,6 +51,10 @@ function App() {
 
             <Route path='/participant-dashboard' element={<PrivateRoute />}>
               <Route path='/participant-dashboard' element={<ParticipantDashboard />} />
+            </Route>
+
+            <Route path='/view-challenge' element={<PrivateRoute />}>
+              <Route path='/view-challenge' element={<ViewChallenge />} />
             </Route>
 
             <Route path='/leaderboard' element={<PrivateRoute />}>
