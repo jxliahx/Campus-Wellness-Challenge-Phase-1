@@ -55,7 +55,7 @@ function Header() {
                     <ul className='nav-list'>
                         {user ? (
                             <Box sx={{ display: 'flex', gap: 2 }}>
-                                <Link to='/dashboard' className='header-button'>
+                                <Link to='/participant-dashboard' className='header-button'>
                                     Home
                                 </Link>
 
@@ -75,7 +75,8 @@ function Header() {
                                 <Button
                                     onClick={onLogout}
                                     className="header-button"
-                                    startIcon={<Icon><FaSignOutAlt /></Icon>}
+                                    startIcon={<FaSignInAlt style={{verticalAlign: 'middle', marginTop: '-1px'}} />}
+
                                 >
                                     Logout
                                 </Button>
