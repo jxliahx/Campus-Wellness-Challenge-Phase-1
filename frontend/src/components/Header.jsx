@@ -45,7 +45,7 @@ function Header() {
         >
             <Toolbar className="header-content" disableGutters>
                 <Link to="/" className="logo-link">
-                    <img src={logo} alt="Logo" style={{height: '30px'}}/>
+                    <img src={logo} alt="Logo" style={{height: '40px'}}/>
                     <Typography variant="h6" component="div">
                         Campus Wellness Challenge
                     </Typography>
