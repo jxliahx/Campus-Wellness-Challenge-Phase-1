@@ -53,31 +53,42 @@ function Header() {
 
                 <Box component="nav">
                     <ul className='nav-list'>
-                        <li>
-                            <Link to='/leaderboard' className='header-button'>
-                                <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px'}} />
-                                Leaderboard
-                            </Link>
-                        </li>
                         {user ? (
-                            <>
-                                <li>
-                                    <Link to='/dashboard' className='header-button'>
-                                        Dashboard
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Button
-                                        onClick={onLogout}
-                                        className="header-button"
-                                        startIcon={<Icon><FaSignOutAlt /></Icon>}
-                                    >
-                                        Logout
-                                    </Button>
-                                </li>
-                            </>
+                            <Box sx={{ display: 'flex', gap: 2 }}>
+                                <Link to='/dashboard' className='header-button'>
+                                    Home
+                                </Link>
+
+                                <Link to='/view-challenge' className='header-button'>
+                                    Challenges
+                                </Link>
+
+                                <Link to='/leaderboard' className='header-button'>
+                                    <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px'}} />
+                                    Leaderboard
+                                </Link>
+
+                                <Link tp='/forum' className='header-button'>
+                                    Forum
+                                </Link>
+
+                                <Button
+                                    onClick={onLogout}
+                                    className="header-button"
+                                    startIcon={<Icon><FaSignOutAlt /></Icon>}
+                                >
+                                    Logout
+                                </Button>
+                            </Box>
                         ) : (
                             <Box sx={{ display: 'flex', gap: 2 }}>
+                                <li>
+                                    <Link to='/leaderboard' className='header-button'>
+                                        <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px'}} />
+                                        Leaderboard
+                                    </Link>
+                                </li>
+                                
                                 <Button
                                     component={Link}
                                     to="/login"
