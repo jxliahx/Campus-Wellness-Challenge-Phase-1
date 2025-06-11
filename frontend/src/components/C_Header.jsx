@@ -3,6 +3,6 @@
     Group Members:
                 Julia Hu
                 Anna Chu
-    File Name: B_Header.jsx
-    For: Both coordinator and participants
+    File Name: C_Header.jsx
+    For: Coordinator
 */
