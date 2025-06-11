@@ -14,6 +14,7 @@ import CoordinatorDashboard from './pages/C_Dashboard'
 import ParticipantDashboard from './pages/P_Dashboard'
 import PickRole from './pages/B_PickRole'
 import CreateChallenge from './pages/C_CreateChallenge'
+import Leaderboard from './pages/B_Leaderboard'
 
 // Logged in users
 import PrivateRoute from './components/PrivateRoute'
@@ -42,12 +43,16 @@ function App() {
               <Route path='/coordinator-dashboard' element={<CoordinatorDashboard />} />
             </Route>
 
-            <Route path="/create-challenge" element={<PrivateRoute />}>
-              <Route path="/create-challenge" element={<CreateChallenge />} />
+            <Route path='/create-challenge' element={<PrivateRoute />}>
+              <Route path='/create-challenge' element={<CreateChallenge />} />
             </Route>
 
             <Route path='/participant-dashboard' element={<PrivateRoute />}>
               <Route path='/participant-dashboard' element={<ParticipantDashboard />} />
+            </Route>
+
+            <Route path='leaderboard' element={<PrivateRoute />}>
+              <Route path='/leaderboard' element={<Leaderboard />} />
             </Route>
 
           </Routes>
