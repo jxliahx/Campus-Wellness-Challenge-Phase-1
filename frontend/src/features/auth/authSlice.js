@@ -12,21 +12,40 @@ const initialState = {
     message: '',
 }
 
-
-// Register user
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
+// Register participant
+export const registerParticipant = createAsyncThunk('auth/registerParticipant', async (user, thunkAPI) => {
     try {
-        return await authService.register(user)
+        return await authService.registerParticipant(user)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
 })
 
-// Login user
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+// Register coordinator
+export const registerCoordinator = createAsyncThunk('auth/registerCoordinator', async (user, thunkAPI) => {
     try {
-        return await authService.login(user)
+        return await authService.registerCoordinator(user)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
+// Login participant
+export const loginParticipant = createAsyncThunk('auth/loginParticipant', async (user, thunkAPI) => {
+    try {
+        return await authService.loginParticipant(user)
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
+// Login coordinator
+export const loginCoordinator = createAsyncThunk('auth/loginCoordinator', async (user, thunkAPI) => {
+    try {
+        return await authService.loginCoordinator(user)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -51,32 +70,64 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // Register user
-            .addCase(register.pending, (state) => {
+            // Register participant
+            .addCase(registerParticipant.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(register.fulfilled, (state, action) => {
+            .addCase(registerParticipant.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload
             })
-            .addCase(register.rejected, (state, action) => {
+            .addCase(registerParticipant.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true    
                 state.message = action.payload
                 state.user = null
             })
 
-            // Login user
-            .addCase(login.pending, (state) => {
+            // Register coordinator
+            .addCase(registerCoordinator.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase(registerCoordinator.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload
             })
-            .addCase(login.rejected, (state, action) => {
+            .addCase(registerCoordinator.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true    
+                state.message = action.payload
+                state.user = null
+            })
+
+            // Login participant
+            .addCase(loginParticipant.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(loginParticipant.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            .addCase(loginParticipant.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true    
+                state.message = action.payload
+                state.user = null
+            })
+
+            // Login coordinator
+            .addCase(loginCoordinator.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(loginCoordinator.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload
+            })
+            .addCase(loginCoordinator.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true    
                 state.message = action.payload

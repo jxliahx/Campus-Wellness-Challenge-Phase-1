@@ -13,7 +13,7 @@ import { FaUserPlus } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { register, reset } from '../features/auth/authSlice'
+import { registerCoordinator, reset } from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
 import {
   Container,
@@ -73,7 +73,7 @@ function Register() {
                 password,
                 role: 'coordinator'
             }
-            dispatch(register(userData))
+            dispatch(registerCoordinator(userData))
         }
     }
 

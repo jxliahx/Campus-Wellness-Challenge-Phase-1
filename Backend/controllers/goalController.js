@@ -1,14 +1,13 @@
 const asyncHandler = require('express-async-handler')
-
 const Goal = require('../models/goalModel')
-const User = require('../models/userModel')
+const Participant = require('../models/participantModel')
+const Coordinator = require('../models/coordinatorModel')
 
 // @desc Get goals
 // @route GET /api/goals
 // @access Private
 const getGoals = asyncHandler(async (req, res) => {
     const goals = await Goal.find({ user: req.user.id })
-
     res.status(200).json(goals)
 })
 
@@ -21,9 +20,17 @@ const setGoal = asyncHandler(async (req, res) => {
         throw new Error('Please add a text field')
     }
 
+    // Determine which model the user belongs to
+    let userModel = 'Participant'
+    const coordinator = await Coordinator.findById(req.user.id)
+    if (coordinator) {
+        userModel = 'Coordinator'
+    }
+
     const goal = await Goal.create({
         text: req.body.text,
-        user: req.user.id
+        user: req.user.id,
+        userModel: userModel
     })
 
     res.status(200).json(goal) 
@@ -40,7 +47,11 @@ const updateGoal = asyncHandler(async (req, res) => {
         throw new Error('Goal not found')
     }
 
-    const user = await User.findById(req.user.id)
+    // Try to find user in both collections
+    let user = await Participant.findById(req.user.id)
+    if (!user) {
+        user = await Coordinator.findById(req.user.id)
+    }
 
     // Check for user
     if(!user) {
@@ -70,7 +81,11 @@ const deleteGoal = asyncHandler(async (req, res) => {
         throw new Error('Goal not found')
     }
 
-    const user = await User.findById(req.user.id)
+    // Try to find user in both collections
+    let user = await Participant.findById(req.user.id)
+    if (!user) {
+        user = await Coordinator.findById(req.user.id)
+    }
 
     // Check for user
     if(!user) {

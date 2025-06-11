@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
-const User = require('../models/userModel')
+const Participant = require('../models/participantModel')
+const Coordinator = require('../models/coordinatorModel')
 
 // Protect routes
 const protect = asyncHandler(async (req, res, next) => {
@@ -14,9 +15,18 @@ const protect = asyncHandler(async (req, res, next) => {
             // Verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-            // Get user from the token
-            req.user = await User.findById(decoded.id).select('-password')
+            // Try to find user in both collections
+            let user = await Participant.findById(decoded.id).select('-password')
+            if (!user) {
+                user = await Coordinator.findById(decoded.id).select('-password')
+            }
 
+            if (!user) {
+                res.status(401)
+                throw new Error('User not found')
+            }
+
+            req.user = user
             next()
         } catch (error) {
             console.log(error)

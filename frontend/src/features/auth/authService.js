@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api/users/'
+const API_URL = 'http://localhost:5000/api'
 
-// Register user
-const register = async (userData) => {
-    const response = await axios.post(API_URL, userData)
+// Register participant
+const registerParticipant = async (userData) => {
+    const response = await axios.post(`${API_URL}/participants`, userData)
 
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
@@ -12,9 +12,29 @@ const register = async (userData) => {
     return response.data
 }
 
-// Login user
-const login = async (userData) => {
-    const response = await axios.post(API_URL + 'login', userData)
+// Register coordinator
+const registerCoordinator = async (userData) => {
+    const response = await axios.post(`${API_URL}/coordinators`, userData)
+
+    if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+    }
+    return response.data
+}
+
+// Login participant
+const loginParticipant = async (userData) => {
+    const response = await axios.post(`${API_URL}/participants/login`, userData)
+
+    if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+    }
+    return response.data
+}
+
+// Login coordinator
+const loginCoordinator = async (userData) => {
+    const response = await axios.post(`${API_URL}/coordinators/login`, userData)
 
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
@@ -28,8 +48,10 @@ const logout = () => {
 }
 
 const authService = {
-    register,
-    login,
+    registerParticipant,
+    registerCoordinator,
+    loginParticipant,
+    loginCoordinator,
     logout,
 }
 

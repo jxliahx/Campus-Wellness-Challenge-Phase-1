@@ -4,7 +4,12 @@ const goalSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User',
+        refPath: 'userModel'  // This allows us to reference multiple models
+    },
+    userModel: {
+        type: String,
+        required: true,
+        enum: ['Participant', 'Coordinator']  // Specify which models can be referenced
     },
     text: {
         type: String,

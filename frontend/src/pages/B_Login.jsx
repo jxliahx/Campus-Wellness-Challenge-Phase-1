@@ -13,7 +13,7 @@ import { FaSignInAlt } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { login, reset } from '../features/auth/authSlice'
+import { loginParticipant, loginCoordinator, reset } from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
 import {
   Container,
@@ -23,7 +23,11 @@ import {
   Button,
   Box,
   Icon,
-  Link
+  Link,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
 import '../styles/pages.css'
@@ -32,9 +36,10 @@ function Login() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
+        role: 'participant' // Default to participant
     })
     
-    const {email, password} = formData
+    const {email, password, role} = formData
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -66,7 +71,11 @@ function Login() {
             email,
             password,
         }
-        dispatch(login(userData))
+        if (role === 'participant') {
+            dispatch(loginParticipant(userData))
+        } else {
+            dispatch(loginCoordinator(userData))
+        }
     }
 
     if (isLoading) {
@@ -90,6 +99,21 @@ function Login() {
                 </Typography>
 
                 <Box component="form" onSubmit={onSubmit} className="auth-form">
+                    <FormControl fullWidth>
+                        <InputLabel id="role-label">Role</InputLabel>
+                        <Select
+                            labelId="role-label"
+                            id="role"
+                            name="role"
+                            value={role}
+                            label="Role"
+                            onChange={onChange}
+                        >
+                            <MenuItem value="participant">Participant</MenuItem>
+                            <MenuItem value="coordinator">Coordinator</MenuItem>
+                        </Select>
+                    </FormControl>
+
                     <TextField
                         fullWidth
                         label="Email"
