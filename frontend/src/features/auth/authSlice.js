@@ -35,7 +35,10 @@ export const registerCoordinator = createAsyncThunk('auth/registerCoordinator', 
 // Login participant
 export const loginParticipant = createAsyncThunk('auth/loginParticipant', async (user, thunkAPI) => {
     try {
-        return await authService.loginParticipant(user)
+        console.log('Login participant attempt with:', user)
+        const response = await authService.loginParticipant(user)
+        console.log('Login participant response:', response)
+        return response
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -45,7 +48,10 @@ export const loginParticipant = createAsyncThunk('auth/loginParticipant', async 
 // Login coordinator
 export const loginCoordinator = createAsyncThunk('auth/loginCoordinator', async (user, thunkAPI) => {
     try {
-        return await authService.loginCoordinator(user)
+        console.log('Login coordinator attempt with:', user)
+        const response = await authService.loginCoordinator(user)
+        console.log('Login coordinator response:', response)
+        return response
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -78,12 +84,14 @@ export const authSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload
+                console.log('Register participant success:', action.payload)
             })
             .addCase(registerParticipant.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true    
                 state.message = action.payload
                 state.user = null
+                console.log('Register participant error:', action.payload)
             })
 
             // Register coordinator
@@ -94,12 +102,14 @@ export const authSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload
+                console.log('Register coordinator success:', action.payload)
             })
             .addCase(registerCoordinator.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true    
                 state.message = action.payload
                 state.user = null
+                console.log('Register coordinator error:', action.payload)
             })
 
             // Login participant
@@ -110,12 +120,14 @@ export const authSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload
+                console.log('Login participant success:', action.payload)
             })
             .addCase(loginParticipant.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true    
                 state.message = action.payload
                 state.user = null
+                console.log('Login participant error:', action.payload)
             })
 
             // Login coordinator
@@ -126,12 +138,14 @@ export const authSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload
+                console.log('Login coordinator success:', action.payload)
             })
             .addCase(loginCoordinator.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true    
                 state.message = action.payload
                 state.user = null
+                console.log('Login coordinator error:', action.payload)
             })
 
             // Logout user

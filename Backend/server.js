@@ -22,9 +22,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes
-app.use('/api/challenges', require('./routes/goalRoutes'))
-app.use('/api/participants', require('./routes/participantRoutes'))
-app.use('/api/coordinators', require('./routes/coordinatorRoutes'))
+const participantRoutes = require('./routes/participantRoutes')
+const coordinatorRoutes = require('./routes/coordinatorRoutes')
+const challengeRoutes = require('./routes/challengeRoutes')
+
+app.use('/api/participants', participantRoutes)
+app.use('/api/coordinators', coordinatorRoutes)
+app.use('/api/challenges', challengeRoutes)
 
 // Error handler
 app.use(errorHandler)

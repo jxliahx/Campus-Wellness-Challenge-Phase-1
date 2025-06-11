@@ -45,13 +45,15 @@ const registerParticipant = asyncHandler(async(req, res) => {
     });
 
     if(participant) {  
-        res.status(201).json({
+        const response = {
             _id: participant.id,
             name: participant.name,
             email: participant.email,
             role: participant.role,
             token: generateToken(participant._id)
-        })
+        }
+        console.log('Sending registration response:', response)
+        res.status(201).json(response)
     } else {
         res.status(400)
         throw new Error('Invalid participant data')
@@ -64,18 +66,38 @@ const registerParticipant = asyncHandler(async(req, res) => {
 const loginParticipant = asyncHandler(async(req, res) => {
     const { email, password } = req.body
 
+    console.log('Login attempt for email:', email)
+
     // Check for participant email
     const participant = await Participant.findOne({email})
 
-    if(participant && (await bcrypt.compare(password, participant.password))) {
-        res.json({
+    if(!participant) {
+        console.log('No participant found with email:', email)
+        res.status(401)
+        throw new Error('Invalid credentials')
+    }
+
+    console.log('Found participant:', {
+        id: participant._id,
+        email: participant.email,
+        role: participant.role
+    })
+
+    const isMatch = await bcrypt.compare(password, participant.password)
+    console.log('Password match:', isMatch)
+
+    if(participant && isMatch) {
+        const response = {
             _id: participant.id,
             name: participant.name,
             email: participant.email,
             role: participant.role,
             token: generateToken(participant._id)
-        })
+        }
+        console.log('Sending login response:', response)
+        res.json(response)
     } else {
+        console.log('Invalid credentials for email:', email)
         res.status(401)
         throw new Error('Invalid credentials')
     }
