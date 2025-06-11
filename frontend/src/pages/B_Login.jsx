@@ -52,11 +52,16 @@ function Login() {
         }
 
         if (isSuccess || user) {
-            navigate('/')
+            // Redirect based on role
+            if (role === 'coordinator') {
+                navigate('/coordinator-dashboard')
+            } else {
+                navigate('/participant-dashboard')
+            }
         }
 
         dispatch(reset())
-    }, [user, isError, isSuccess, message, navigate, dispatch])
+    }, [user, isError, isSuccess, message, navigate, dispatch, role])
 
     const onChange = (e) => {
         setFormData((prevState) => ({

@@ -49,7 +49,7 @@ function P_Register() {
         }
 
         if (isSuccess || user) {
-            navigate('/')
+            navigate('/participant-dashboard')
         }
 
         dispatch(reset())

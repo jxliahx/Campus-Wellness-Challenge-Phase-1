@@ -49,7 +49,7 @@ function Register() {
         }
 
         if (isSuccess || user) {
-            navigate('/')
+            navigate('/coordinator-dashboard')
         }
 
         dispatch(reset())

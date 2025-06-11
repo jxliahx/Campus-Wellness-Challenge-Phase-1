@@ -17,11 +17,9 @@ import {
   Paper
 } from '@mui/material';
 import '../styles/pages.css';
-import { useAuth } from '../context/AuthContext';
 
 function PickRole() {
   const navigate = useNavigate();
-  const { user, login, register, logout } = useAuth();
 
   return (
     <Container component="main" maxWidth="sm" className="page-container">
@@ -39,7 +37,7 @@ function PickRole() {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate('/register/participant')}
+            onClick={() => navigate('/register')}
             size="large"
             className="primary-button"
             sx={{ mb: 2, width: '200px', height: '48px' }}
@@ -50,7 +48,7 @@ function PickRole() {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => navigate('/register/coordinator')}
+            onClick={() => navigate('/coordinator-register')}
             size="large"
             className="secondary-button"
             sx={{ width: '200px', height: '48px' }}

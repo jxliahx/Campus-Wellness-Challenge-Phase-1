@@ -4,37 +4,36 @@ import 'react-toastify/dist/ReactToastify.css'
 import Header from './components/Header'
 import Homepage from './pages/B_Homepage'
 import Login from './pages/B_Login'
-import Register from './pages/C_Register'
-import PRegister from './pages/P_Register'
-import Dashboard from './pages/P_Dashboard'
-import Leaderboard from './pages/B_Leaderboard'
-import PrivateRoute from './components/PrivateRoute'
-import { AuthProvider } from './context/AuthContext'
+import Register from './pages/P_Register'
+import CoordinatorRegister from './pages/C_Register'
+import CoordinatorDashboard from './pages/C_Dashboard'
+import ParticipantDashboard from './pages/P_Dashboard'
 import PickRole from './pages/B_PickRole'
+import PrivateRoute from './components/PrivateRoute'
 import './styles/pages.css'
 
 function App() {
   return (
     <>
-      <AuthProvider>
-        <Router>
-          <div className='container'>
-            <Header />
-            <Routes>
-              <Route path='/' element={<Homepage />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/pick-role' element={<PickRole />} />
-              <Route path='/register/coordinator' element={<Register />} />
-              <Route path='/register/participant' element={<PRegister />} />
-              <Route path='/leaderboard' element={<Leaderboard />} />
-              <Route path='/dashboard' element={<PrivateRoute />}>
-                <Route path='/dashboard' element={<Dashboard />} />
-              </Route>
-            </Routes>
-          </div>
-        </Router>
-        <ToastContainer />
-      </AuthProvider>
+      <Router>
+        <div className='container'>
+          <Header />
+          <Routes>
+            <Route path='/' element={<Homepage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/coordinator-register' element={<CoordinatorRegister />} />
+            <Route path='/pick-role' element={<PickRole />} />
+            <Route path='/coordinator-dashboard' element={<PrivateRoute />}>
+              <Route path='/coordinator-dashboard' element={<CoordinatorDashboard />} />
+            </Route>
+            <Route path='/participant-dashboard' element={<PrivateRoute />}>
+              <Route path='/participant-dashboard' element={<ParticipantDashboard />} />
+            </Route>
+          </Routes>
+        </div>
+      </Router>
+      <ToastContainer />
     </>
   )
 }
