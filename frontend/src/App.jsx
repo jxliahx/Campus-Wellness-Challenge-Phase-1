@@ -1,7 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
+// Layout
 import Header from './components/Header'
+import './styles/pages.css'
+
+// Pages
 import Homepage from './pages/B_Homepage'
 import Login from './pages/B_Login'
 import Register from './pages/P_Register'
@@ -9,9 +14,11 @@ import CoordinatorRegister from './pages/C_Register'
 import CoordinatorDashboard from './pages/C_Dashboard'
 import ParticipantDashboard from './pages/P_Dashboard'
 import PickRole from './pages/B_PickRole'
-import PrivateRoute from './components/PrivateRoute'
-import './styles/pages.css'
 
+// Logged in users
+import PrivateRoute from './components/PrivateRoute'
+
+// Fonts
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
