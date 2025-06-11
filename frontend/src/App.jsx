@@ -8,6 +8,7 @@ import Header from './components/Header'
 // Pages
 import Homepage from './pages/B_Homepage'
 import Login from './pages/B_Login'
+import Logout from './pages/B_Logout'
 import Register from './pages/P_Register'
 import CoordinatorRegister from './pages/C_Register'
 import CoordinatorDashboard from './pages/C_Dashboard'
@@ -40,6 +41,10 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/coordinator-register' element={<CoordinatorRegister />} />
             <Route path='/pick-role' element={<PickRole />} />
+
+            <Route path='/logout' element={<PrivateRoute />}>
+              <Route path='/logout' element={<Logout />} />
+            </Route>
 
             <Route path='/coordinator-dashboard' element={<PrivateRoute />}>
               <Route path='/coordinator-dashboard' element={<CoordinatorDashboard />} />
