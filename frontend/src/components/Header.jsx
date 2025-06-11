@@ -55,7 +55,7 @@ function Header() {
                     <ul className='nav-list'>
                         <li>
                             <Link to='/leaderboard' className='header-button'>
-                                <Icon><FaTrophy /></Icon>
+                                <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px'}} />
                                 Leaderboard
                             </Link>
                         </li>
@@ -82,7 +82,7 @@ function Header() {
                                     component={Link}
                                     to="/login"
                                     className="header-button"
-                                    startIcon={<Icon><FaSignInAlt /></Icon>}
+                                    startIcon={<FaSignInAlt style={{verticalAlign: 'middle', marginTop: '-3px'}} />}
                                 >
                                     Login
                                 </Button>
@@ -90,7 +90,7 @@ function Header() {
                                     component={Link}
                                     to="/pick-role"
                                     className="header-button"
-                                    startIcon={<Icon><FaUser /></Icon>}
+                                    startIcon={<FaUser style={{verticalAlign: 'middle', marginTop: '-3px'}} />}
                                 >
                                     Register
                                 </Button>

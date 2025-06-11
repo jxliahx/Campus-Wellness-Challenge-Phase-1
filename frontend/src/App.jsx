@@ -12,6 +12,11 @@ import PickRole from './pages/B_PickRole'
 import PrivateRoute from './components/PrivateRoute'
 import './styles/pages.css'
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 function App() {
   return (
     <>
