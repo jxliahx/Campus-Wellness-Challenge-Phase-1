@@ -21,6 +21,8 @@ import {
 } from '@mui/material'
 import '../styles/pages.css'
 import logo from '../images/logo.png'
+import HomeIcon from '@mui/icons-material/Home';
+import FlagIcon from '@mui/icons-material/Flag';
 
 function Header() {
     const navigate = useNavigate()
@@ -56,15 +58,17 @@ function Header() {
                         {user ? (
                             <Box sx={{ display: 'flex', gap: 2 }}>
                                 <Link to='/participant-dashboard' className='header-button'>
+                                    <HomeIcon style={{verticalAlign: 'middle', marginTop: '-2px', fontSize: 25}} />
                                     Home
                                 </Link>
 
                                 <Link to='/view-challenge' className='header-button'>
+                                    <FlagIcon style={{verticalAlign: 'middle', marginTop: '-2px', fontSize: 20}} />
                                     Challenges
                                 </Link>
 
                                 <Link to='/leaderboard' className='header-button'>
-                                    <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px'}} />
+                                    <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px', fontSize: 15}} />
                                     Leaderboard
                                 </Link>
 
@@ -76,7 +80,7 @@ function Header() {
                                     component={Link}
                                     to="/logout"
                                     className="header-button"
-                                    startIcon={<FaSignInAlt style={{verticalAlign: 'middle', marginTop: '-1px'}} />}
+                                    startIcon={<FaSignInAlt style={{verticalAlign: 'middle', marginTop: '-1px', fontSize: 18}} />}
 
                                 >
                                     Logout
