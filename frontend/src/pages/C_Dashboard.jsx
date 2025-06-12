@@ -7,9 +7,9 @@
     For: Coordinators
 */
 
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import {
     Container,
     Paper,
@@ -25,14 +25,20 @@ import {
 } from '@mui/material'
 import { FaUser, FaPlus, FaUserPlus, FaTrophy } from 'react-icons/fa'
 import '../styles/pages.css'
+import { getChallenges } from '../features/challenges/challengeSlice'
 
 function C_Dashboard() {
     const { user } = useSelector((state) => state.auth)
     const { challenges } = useSelector((state) => state.challenge)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getChallenges())
+    }, [dispatch])
 
     return (
-        <Container component="main" maxWidth="lg" className="page-container" sx={{mt: 10}}>
+        <Container component="main" maxWidth="lg" className="page-container">
             <Paper className="dashboard-container" sx={{ p: 4 }}>
                 {/* User Info Section */}
                 <Box sx={{ 
@@ -118,17 +124,16 @@ function C_Dashboard() {
                     alignItems: 'center',
                     gap: 2
                 }}>
-                    <Link to="/create-challenge" style={{ textDecoration: 'none', width: '100%', maxWidth: 400 }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            startIcon={<FaPlus />}
-                            fullWidth
-                        >
-                            Create Challenge
-                        </Button>
-                    </Link>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        startIcon={<FaPlus />}
+                        onClick={() => navigate('/create-challenge')}
+                        sx={{ width: '100%', maxWidth: 400 }}
+                    >
+                        Create Challenge
+                    </Button>
 
                     <Box sx={{ 
                         display: 'flex', 
