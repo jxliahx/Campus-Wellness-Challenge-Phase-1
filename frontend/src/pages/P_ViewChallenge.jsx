@@ -285,15 +285,22 @@ function P_ViewChallenge() {
                             display: 'flex',
                             flexDirection: 'column'
                         }}>
-                            <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                            <Box sx={{ 
                                 display: 'flex', 
-                                alignItems: 'center', 
-                                gap: 1,
-                                color: '#1976d2'
+                                justifyContent: 'space-between', 
+                                alignItems: 'center',
+                                mb: 2
                             }}>
-                                <FaFile />
-                                Resources
-                            </Typography>
+                                <Typography variant="h6" component="h2" sx={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: 1,
+                                    color: '#1976d2'
+                                }}>
+                                    <FaFile />
+                                    Resources
+                                </Typography>
+                            </Box>
                             <List sx={{ flexGrow: 1, overflow: 'auto' }}>
                                 {resourcesLoading ? (
                                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -311,7 +318,8 @@ function P_ViewChallenge() {
                                                                 {resource.fileName}
                                                             </Typography>
                                                             <Link
-                                                                href={resource.fileUrl}
+                                                                href={`http://localhost:5000${resource.fileUrl}`}
+                                                                download={resource.fileName}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                                 sx={{ ml: 2 }}

@@ -306,7 +306,8 @@ function C_ViewChallenge() {
                                                                 {resource.fileName}
                                                             </Typography>
                                                             <Link
-                                                                href={resource.fileUrl}
+                                                                href={`http://localhost:5000${resource.fileUrl}`}
+                                                                download={resource.fileName}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                                 sx={{ ml: 2 }}
