@@ -20,6 +20,7 @@ import PickRole from './pages/B_PickRole'
 import CreateChallenge from './pages/C_CreateChallenge'
 import Leaderboard from './pages/B_Leaderboard'
 import UploadResource from './pages/C_UploadResource'
+import EnrollParticipant from './pages/C_Enroll.jsx'
 
 // Logged in users
 import PrivateRoute from './components/PrivateRoute'
@@ -70,9 +71,13 @@ function App() {
 
             <Route path='/view-challenge' element={
               <RoleRoute>
-                <ViewChallenge />
+                <ViewChallenge />                                         //TODO
               </RoleRoute>
             } />
+
+            <Route path='/enroll-participant' element={<PrivateRoute />}>
+              <Route path='/enroll-participant' element={<EnrollParticipant />} />
+            </Route>
 
             <Route path='/leaderboard' element={<PrivateRoute />}>
               <Route path='/leaderboard' element={<Leaderboard />} />
