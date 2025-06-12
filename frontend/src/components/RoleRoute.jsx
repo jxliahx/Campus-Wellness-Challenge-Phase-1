@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const RoleRoute = ({ children }) => {
+const RoleRoute = ({ children, allowedRoles }) => {
     const { user } = useSelector((state) => state.auth)
     const path = window.location.pathname
     // Extract the first part of the path after the first slash
@@ -10,11 +10,18 @@ const RoleRoute = ({ children }) => {
     console.log('RoleRoute - Current path:', path)
     console.log('RoleRoute - First path:', firstPath)
     console.log('RoleRoute - User:', user)
+    console.log('RoleRoute - Allowed roles:', allowedRoles)
 
     // If not logged in, redirect to login
     if (!user) {
         console.log('RoleRoute - No user found, redirecting to login')
         return <Navigate to="/login" />
+    }
+
+    // If allowedRoles is specified, check if user's role is allowed
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+        console.log('RoleRoute - User role not allowed for this route')
+        return <Navigate to={`/${user.role}-dashboard`} />
     }
 
     // Check user role from the user object
@@ -44,7 +51,9 @@ const RoleRoute = ({ children }) => {
     // If logged in as participant
     if (isParticipant) {
         // Allow access to participant dashboard and related pages
-        if (firstPath === 'participant-dashboard' || firstPath === 'leaderboard') {
+        if (firstPath === 'participant-dashboard' || 
+            firstPath === 'leaderboard' || 
+            firstPath === 'participant') {
             console.log('RoleRoute - Participant accessing allowed page')
             return children
         }

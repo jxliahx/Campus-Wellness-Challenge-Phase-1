@@ -7,8 +7,10 @@
     For: Participants
 */
 
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getParticipantChallenges } from '../features/participantChallenges/participantChallengesSlice'
 import {
     Container,
     Paper,
@@ -19,33 +21,33 @@ import {
     Card,
     CardContent,
     LinearProgress,
-    Divider
+    Divider,
+    CircularProgress
 } from '@mui/material'
 import { FaUser, FaTrophy, FaMedal } from 'react-icons/fa'
 import '../styles/pages.css'
 
 function P_Dashboard() {
+    const navigate = useNavigate()
     const { user } = useSelector((state) => state.auth)
+    const { challenges, isLoading, error } = useSelector((state) => state.participantChallenges)
+    const dispatch = useDispatch()
 
-    // Mock data for enrolled challenges - replace with actual data from your backend
-    const enrolledChallenges = [
-        {
-            id: 1,
-            name: 'Daily Steps Challenge',
-            progress: 75,
-            startDate: '2024-03-01',
-            endDate: '2024-03-31',
-            description: 'Walk 10,000 steps every day'
-        },
-        {
-            id: 2,
-            name: 'Weekly Workout Challenge',
-            progress: 50,
-            startDate: '2024-03-01',
-            endDate: '2024-03-31',
-            description: 'Complete 3 workouts per week'
-        }
-    ]
+    useEffect(() => {
+        console.log('Fetching participant challenges...')
+        dispatch(getParticipantChallenges())
+    }, [dispatch])
+
+    useEffect(() => {
+        console.log('Current challenges state:', challenges)
+        console.log('Loading state:', isLoading)
+        console.log('Error state:', error)
+    }, [challenges, isLoading, error])
+
+    const handleChallengeClick = (challengeId) => {
+        localStorage.setItem('selectedChallengeId', challengeId)
+        navigate('/participant/view-challenge')
+    }
 
     // Mock data for achievements - replace with actual data from your backend
     const achievements = [
@@ -100,43 +102,64 @@ function P_Dashboard() {
                         <FaTrophy />
                         Enrolled Challenges
                     </Typography>
-                    <Grid container spacing={2}>
-                        {enrolledChallenges.map((challenge) => (
-                            <Grid item xs={12} sm={6} key={challenge.id}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h6" component="h3" gutterBottom>
-                                            {challenge.name}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary" paragraph>
-                                            {challenge.description}
-                                        </Typography>
-                                        <Box sx={{ mb: 2 }}>
-                                            <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                Progress: {challenge.progress}%
+                    {isLoading ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                            <CircularProgress />
+                        </Box>
+                    ) : error ? (
+                        <Typography variant="body1" color="error" align="center" sx={{ mt: 2 }}>
+                            Error loading challenges: {error}
+                        </Typography>
+                    ) : challenges && challenges.length > 0 ? (
+                        <Grid container spacing={2}>
+                            {challenges.map((challenge) => (
+                                <Grid item xs={12} sm={6} key={challenge._id}>
+                                    <Card 
+                                        onClick={() => handleChallengeClick(challenge._id)}
+                                        sx={{ 
+                                            cursor: 'pointer',
+                                            transition: 'transform 0.2s, box-shadow 0.2s',
+                                            '&:hover': {
+                                                transform: 'translateY(-4px)',
+                                                boxShadow: 3
+                                            }
+                                        }}
+                                    >
+                                        <CardContent>
+                                            <Typography variant="h6" component="h3" gutterBottom>
+                                                {challenge.name}
                                             </Typography>
-                                            <LinearProgress 
-                                                variant="determinate" 
-                                                value={challenge.progress} 
-                                                sx={{ 
-                                                    height: 8, 
-                                                    borderRadius: 4,
-                                                    backgroundColor: '#e0e0e0',
-                                                    '& .MuiLinearProgress-bar': {
-                                                        backgroundColor: '#1976d2'
-                                                    }
-                                                }}
-                                            />
-                                        </Box>
-                                        <Divider sx={{ my: 1 }} />
-                                        <Typography variant="caption" color="text.secondary">
-                                            {challenge.startDate} to {challenge.endDate}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                                            <Typography variant="body2" color="text.secondary" paragraph>
+                                                {challenge.description}
+                                            </Typography>
+                                            <Box sx={{ mb: 2 }}>
+                                                <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                    Points: {challenge.points}
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                    Type: {challenge.type}
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                    Goal: {challenge.goal}
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                    Frequency: {challenge.frequency}
+                                                </Typography>
+                                            </Box>
+                                            <Divider sx={{ my: 1 }} />
+                                            <Typography variant="caption" color="text.secondary">
+                                                {new Date(challenge.startDate).toLocaleDateString()} to {new Date(challenge.endDate).toLocaleDateString()}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    ) : (
+                        <Typography variant="body1" color="text.secondary" align="center" sx={{ mt: 2 }}>
+                            You are not enrolled in any challenges yet.
+                        </Typography>
+                    )}
                 </Box>
 
                 {/* Achievements Section */}

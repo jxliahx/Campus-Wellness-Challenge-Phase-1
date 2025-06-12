@@ -23,7 +23,7 @@ const participantSchema = new mongoose.Schema({
 },
 {
     timestamps: true,
-    collection: 'Participants'  // Using correct capitalization
+    collection: 'Participants'  // Explicitly set collection name to match MongoDB
 }); 
 
 // Add pre-save middleware to log when a participant is being saved
@@ -36,5 +36,16 @@ const Participant = mongoose.model("Participant", participantSchema);
 
 // Log when the model is created
 console.log('Participant model created with collection name:', Participant.collection.name);
+
+// Log the database connection and collections
+mongoose.connection.on('connected', async () => {
+    console.log('Mongoose connected to database:', mongoose.connection.db.databaseName);
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    console.log('Available collections:', collections.map(c => c.name));
+    
+    // Log the number of documents in the Participants collection
+    const count = await Participant.countDocuments();
+    console.log('Number of participants in database:', count);
+});
 
 module.exports = Participant; 

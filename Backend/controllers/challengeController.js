@@ -1,4 +1,5 @@
 const Challenge = require('../models/challengeModel')
+const Leaderboard = require('../models/leaderboardModel')
 const asyncHandler = require('express-async-handler')
 
 // @desc    Create new challenge
@@ -51,10 +52,20 @@ const getChallenge = asyncHandler(async (req, res) => {
         throw new Error('Challenge not found')
     }
 
-    // Check for coordinator
-    if (challenge.createdBy.toString() !== req.user.id) {
+    // Check if user is the coordinator who created the challenge
+    if (challenge.createdBy.toString() === req.user.id) {
+        return res.status(200).json(challenge)
+    }
+
+    // If not the coordinator, check if user is a participant enrolled in the challenge
+    const leaderboardEntry = await Leaderboard.findOne({
+        challenge: req.params.id,
+        participant: req.user.id
+    })
+
+    if (!leaderboardEntry) {
         res.status(401)
-        throw new Error('Not authorized')
+        throw new Error('Not authorized to view this challenge')
     }
 
     res.status(200).json(challenge)

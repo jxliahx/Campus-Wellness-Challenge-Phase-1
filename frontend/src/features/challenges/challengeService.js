@@ -30,15 +30,28 @@ const getChallenges = async (token) => {
 
 // Get single challenge
 const getChallenge = async (id, token) => {
+    if (!token) {
+        console.error('No token provided for getChallenge')
+        throw new Error('Authentication token is required')
+    }
+
+    console.log('Getting challenge with token:', token.substring(0, 10) + '...')
+
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
 
-    const response = await axios.get(API_URL + id, config)
-
-    return response.data
+    try {
+        console.log('Making request to:', API_URL + id)
+        const response = await axios.get(API_URL + id, config)
+        console.log('Challenge response:', response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error in getChallenge:', error.response ? error.response.data : error.message)
+        throw error
+    }
 }
 
 const challengeService = {

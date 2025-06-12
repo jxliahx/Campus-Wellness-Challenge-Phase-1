@@ -44,9 +44,17 @@ export const getChallenge = createAsyncThunk(
     async (id, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
+            console.log('Token from state:', token ? 'Present' : 'Missing')
+            
+            if (!token) {
+                console.error('No token found in Redux state')
+                return thunkAPI.rejectWithValue('Authentication token is missing')
+            }
+
             return await challengeService.getChallenge(id, token)
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+            console.error('Error in getChallenge thunk:', message)
             return thunkAPI.rejectWithValue(message)
         }
     }

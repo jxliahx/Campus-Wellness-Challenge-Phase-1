@@ -25,10 +25,12 @@ app.use(express.urlencoded({ extended: false }))
 const participantRoutes = require('./routes/participantRoutes')
 const coordinatorRoutes = require('./routes/coordinatorRoutes')
 const challengeRoutes = require('./routes/challengeRoutes')
+const leaderboardRoutes = require('./routes/leaderboardRoutes')
 
 app.use('/api/participants', participantRoutes)
 app.use('/api/coordinators', coordinatorRoutes)
 app.use('/api/challenges', challengeRoutes)
+app.use('/api/leaderboard', leaderboardRoutes)
 
 // Error handler
 app.use(errorHandler)

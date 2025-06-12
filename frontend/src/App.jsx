@@ -77,9 +77,9 @@ function App() {
               </RoleRoute>
             } />
 
-            <Route path='/view-challenge' element={
-              <RoleRoute allowedRoles={['coordinator']}>
-                <ViewChallenge />
+            <Route path='/participant/view-challenge' element={
+              <RoleRoute allowedRoles={['participant']}>
+                <P_ViewChallenge />
               </RoleRoute>
             } />
 
