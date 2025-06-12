@@ -38,6 +38,8 @@ function Register() {
         password2: '',
     })
     
+    const [emailError, setEmailError] = useState('')
+    
     const {name, email, password, password2} = formData
 
     const navigate = useNavigate()
@@ -57,15 +59,39 @@ function Register() {
         dispatch(reset())
     }, [user, isError, isSuccess, message, navigate, dispatch])
 
+    const validateEmail = (email) => {
+        // Basic email format validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(email)) {
+            return 'Please enter a valid email address'
+        }
+        return ''
+    }
+
     const onChange = (e) => {
+        const { name, value } = e.target
         setFormData((prevState) => ({
             ...prevState,
-            [e.target.name]: e.target.value
+            [name]: value
         }))
+
+        // Validate email on change
+        if (name === 'email') {
+            const error = validateEmail(value)
+            setEmailError(error)
+        }
     }
 
     const onSubmit = (e) => {
         e.preventDefault()
+        
+        // Validate email before submission
+        const emailValidationError = validateEmail(email)
+        if (emailValidationError) {
+            toast.error(emailValidationError)
+            return
+        }
+
         if (password !== password2) {
             toast.error('Passwords do not match')
         } else {
@@ -126,6 +152,8 @@ function Register() {
                         value={email}
                         onChange={onChange}
                         required
+                        error={!!emailError}
+                        helperText={emailError}
                     />
                     
                     <TextField
