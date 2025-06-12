@@ -328,7 +328,7 @@ function C_ViewChallenge() {
                         minWidth: '200px'
                     }}
                 >
-                    Enroll
+                    Enroll Participant in Challenge
                 </Button>
             </Box>
         </Container>
