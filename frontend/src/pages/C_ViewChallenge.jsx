@@ -309,6 +309,28 @@ function C_ViewChallenge() {
                     </Grid>
                 </Grid>
             </Box>
+
+            {/* Enroll Button */}
+            <Box sx={{ 
+                display: 'flex',
+                justifyContent: 'center',
+                mt: 4,
+                mb: 4
+            }}>
+                <Button
+                    variant="contained"
+                    onClick={() => navigate('/enroll-participant')}
+                    sx={{
+                        backgroundColor: '#1976d2',
+                        '&:hover': {
+                            backgroundColor: '#1565c0'
+                        },
+                        minWidth: '200px'
+                    }}
+                >
+                    Enroll
+                </Button>
+            </Box>
         </Container>
     )
 }
