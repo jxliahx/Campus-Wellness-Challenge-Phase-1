@@ -2,10 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-// Layout
+// Header
 import Header from './components/Header'
-// import CoordinatorHeader from './components/C_Header'
-// import ParticipantHeader from './components/P_Header'
+
 
 // Pages
 import Homepage from './pages/B_Homepage'
