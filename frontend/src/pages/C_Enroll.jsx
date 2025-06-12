@@ -10,14 +10,12 @@
 import React, {useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import {
-    Container,
     Paper,
     Typography,
     Button,
     Box,
     Divider,
     Avatar,
-    Grid,
     IconButton,
 } from '@mui/material'
 import { FaCheck, FaPlus } from 'react-icons/fa'

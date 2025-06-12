@@ -18,6 +18,7 @@ import {
     Typography,
     TextField,
     Button,
+    IconButton,
     Box,
     MenuItem,
     FormControl,
@@ -27,6 +28,7 @@ import {
 } from '@mui/material'
 import { FaPlus } from 'react-icons/fa'
 import '../styles/pages.css'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 
 function CreateChallenge() {
     const [formData, setFormData] = useState({
@@ -104,6 +106,12 @@ function CreateChallenge() {
     return (
         <Container component="main" maxWidth="md" className="page-container" sx={{mt: 10}}>
             <Paper className="dashboard-container" sx={{ p: 4 }}>
+                {/* Back Arrow */}
+                <IconButton onClick={() => navigate('/view-challenge')} sx={{position: 'absolute', left: 450}}>
+                    <ArrowBackIosNewIcon />
+                </IconButton>
+
+                {/* Page Title */}
                 <Typography variant="h4" component="h1" gutterBottom sx={{ 
                     color: '#1976d2',
                     mb: 4,
