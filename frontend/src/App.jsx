@@ -43,12 +43,14 @@ function App() {
         <div className='container'>
           <Header />
           <Routes>
+            {/* Public Routes */}
             <Route path='/' element={<Homepage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/coordinator-register' element={<CoordinatorRegister />} />
             <Route path='/pick-role' element={<PickRole />} />
 
+            {/* Protected Routes */}
             <Route path='/logout' element={<PrivateRoute />}>
               <Route path='/logout' element={<Logout />} />
             </Route>
@@ -60,13 +62,13 @@ function App() {
             } />
 
             <Route path='/create-challenge' element={
-              <RoleRoute>
+              <RoleRoute allowedRoles={['coordinator']}>
                 <CreateChallenge />
               </RoleRoute>
             } />
 
             <Route path='/participant-dashboard' element={
-              <RoleRoute>
+              <RoleRoute allowedRoles={['participant']}>
                 <ParticipantDashboard />
               </RoleRoute>
             } />
@@ -83,6 +85,7 @@ function App() {
               </RoleRoute>
             } />
 
+<<<<<<< HEAD
             <Route path='/enroll-participant' element={<PrivateRoute />}>
               <Route path='/enroll-participant' element={<EnrollParticipant />} />
             </Route>
@@ -96,12 +99,23 @@ function App() {
             <Route path='/register-participant' element={
               <RoleRoute>
                 <Register />
+=======
+            <Route path='/enroll-participant' element={
+              <RoleRoute allowedRoles={['coordinator']}>
+                <EnrollParticipant />
+>>>>>>> 0771ef0417a36e432088c076702cf735ba8e5843
               </RoleRoute>
             } />
 
-            <Route path='/register-coordinator' element={
-              <RoleRoute>
-                <CoordinatorRegister />
+            <Route path='/leaderboard' element={
+              <RoleRoute allowedRoles={['coordinator', 'participant']}>
+                <Leaderboard />
+              </RoleRoute>
+            } />
+
+            <Route path='/upload-resource' element={
+              <RoleRoute allowedRoles={['coordinator']}>
+                <UploadResource />
               </RoleRoute>
             } />
 
@@ -110,7 +124,6 @@ function App() {
                 <C_ChallengeDetail />
               </RoleRoute>
             } />
-
           </Routes>
         </div>
       </Router>

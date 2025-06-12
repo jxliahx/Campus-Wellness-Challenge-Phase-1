@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getChallenges } from '../features/challenges/challengeSlice'
 import { getLeaderboard } from '../features/leaderboard/leaderboardSlice'
+import { getChallengeResources } from '../features/resources/resourceSlice'
 import {
     Container,
     Paper,
@@ -26,9 +27,10 @@ import {
     ListItem,
     ListItemText,
     Button,
-    CircularProgress
+    CircularProgress,
+    Link
 } from '@mui/material'
-import { FaTrophy, FaComments, FaArrowLeft, FaPlus } from 'react-icons/fa'
+import { FaTrophy, FaComments, FaArrowLeft, FaPlus, FaFile } from 'react-icons/fa'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import '../styles/pages.css'
 
@@ -37,6 +39,7 @@ function C_ViewChallenge() {
     const dispatch = useDispatch()
     const { challenges, isLoading: challengesLoading } = useSelector((state) => state.challenge)
     const { leaderboard, isLoading: leaderboardLoading } = useSelector((state) => state.leaderboard)
+    const { resources, isLoading: resourcesLoading } = useSelector((state) => state.resources)
     const [selectedChallenge, setSelectedChallenge] = useState(null)
 
     useEffect(() => {
@@ -53,6 +56,7 @@ function C_ViewChallenge() {
             if (challenge) {
                 setSelectedChallenge(challenge)
                 dispatch(getLeaderboard(challenge._id))
+                dispatch(getChallengeResources(challenge._id))
             }
         }
     }, [dispatch, challenges])
@@ -120,6 +124,25 @@ function C_ViewChallenge() {
                                 <FaTrophy />
                                 Challenge Details
                             </Typography>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                                <Button
+                                    variant="contained"
+                                    startIcon={<FaPlus />}
+                                    onClick={() => {
+                                        // Store the current challenge ID for the upload resource page
+                                        localStorage.setItem('selectedChallengeId', selectedChallenge._id)
+                                        navigate('/upload-resource')
+                                    }}
+                                    sx={{
+                                        backgroundColor: '#1976d2',
+                                        '&:hover': {
+                                            backgroundColor: '#1565c0'
+                                        }
+                                    }}
+                                >
+                                    Add Resource
+                                </Button>
+                            </Box>
                             <List sx={{ flexGrow: 1, overflow: 'auto' }}>
                                 <ListItem>
                                     <ListItemText 
@@ -228,7 +251,7 @@ function C_ViewChallenge() {
                         </Paper>
                     </Grid>
 
-                    {/* Bottom Left - Challenges Block */}
+                    {/* Bottom Left - Resources */}
                     <Grid item>
                         <Paper sx={{ 
                             p: 2, 
@@ -237,23 +260,62 @@ function C_ViewChallenge() {
                             display: 'flex',
                             flexDirection: 'column'
                         }}>
-                            <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                            <Box sx={{ 
                                 display: 'flex', 
-                                alignItems: 'center', 
-                                gap: 1,
-                                color: '#1976d2'
+                                justifyContent: 'space-between', 
+                                alignItems: 'center',
+                                mb: 2
                             }}>
-                                <FaTrophy />
-                                Challenges
-                            </Typography>
+                                <Typography variant="h6" component="h2" sx={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: 1,
+                                    color: '#1976d2'
+                                }}>
+                                    <FaFile />
+                                    Resources
+                                </Typography>
+                                <Button
+                                    variant="contained"
+                                    startIcon={<FaPlus />}
+                                    onClick={() => navigate('/upload-resource')}
+                                    sx={{ 
+                                        backgroundColor: '#1976d2',
+                                        '&:hover': {
+                                            backgroundColor: '#1565c0'
+                                        }
+                                    }}
+                                >
+                                    Upload Resource
+                                </Button>
+                            </Box>
                             <List sx={{ flexGrow: 1, overflow: 'auto' }}>
-                                {challenges && challenges.length > 0 ? (
-                                    challenges.map((challenge) => (
-                                        <React.Fragment key={challenge._id}>
+                                {resourcesLoading ? (
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                                        <CircularProgress />
+                                    </Box>
+                                ) : resources && resources.length > 0 ? (
+                                    resources.map((resource) => (
+                                        <React.Fragment key={resource._id}>
                                             <ListItem>
-                                                <ListItemText 
-                                                    primary={challenge.name}
-                                                    secondary={challenge.description}
+                                                <ListItemText
+                                                    primary={resource.title}
+                                                    secondary={
+                                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                            <Typography variant="body2">
+                                                                {resource.fileName}
+                                                            </Typography>
+                                                            <Link
+                                                                href={`http://localhost:5000${resource.fileUrl}`}
+                                                                download={resource.fileName}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                sx={{ ml: 2 }}
+                                                            >
+                                                                Download
+                                                            </Link>
+                                                        </Box>
+                                                    }
                                                 />
                                             </ListItem>
                                             <Divider />
@@ -261,36 +323,10 @@ function C_ViewChallenge() {
                                     ))
                                 ) : (
                                     <ListItem>
-                                        <ListItemText 
-                                            primary="No challenges created yet"
-                                            secondary="Create a new challenge to get started"
-                                        />
+                                        <ListItemText primary="No resources uploaded yet" />
                                     </ListItem>
                                 )}
                             </List>
-                            <Box sx={{ 
-                                flexGrow: 1, 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'center'
-                            }}>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<FaPlus />}
-                                    onClick={() => navigate('/challenge-detail')}
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 1,
-                                        backgroundColor: '#1976d2',
-                                        '&:hover': {
-                                            backgroundColor: '#1565c0'
-                                        }
-                                    }}
-                                >
-                                    Create challenge
-                                </Button>
-                            </Box>
                         </Paper>
                     </Grid>
 
