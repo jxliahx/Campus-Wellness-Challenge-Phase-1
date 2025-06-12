@@ -102,17 +102,19 @@ function C_CreateChallenge() {
 
                 <Box component="form" onSubmit={onSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 required
                                 fullWidth
+                                multiline
+                                rows={4}
                                 label="Challenge Name"
                                 name="name"
                                 value={name}
                                 onChange={onChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 required
                                 fullWidth
@@ -125,60 +127,73 @@ function C_CreateChallenge() {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                label="Start Date"
-                                name="startDate"
-                                type="date"
-                                value={startDate}
-                                onChange={onChange}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                label="End Date"
-                                name="endDate"
-                                type="date"
-                                value={endDate}
-                                onChange={onChange}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth required>
-                                <InputLabel>Challenge Type</InputLabel>
-                                <Select
-                                    name="type"
-                                    value={type}
-                                    label="Challenge Type"
+                            <Grid container spacing={2}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    label="Start Date"
+                                    name="startDate"
+                                    type="date"
+                                    value={startDate}
                                     onChange={onChange}
-                                >
-                                    <MenuItem value="Physical Activity">Physical Activity</MenuItem>
-                                    <MenuItem value="Nutrition">Nutrition</MenuItem>
-                                    <MenuItem value="Mental Health">Mental Health</MenuItem>
-                                    <MenuItem value="Sleep">Sleep</MenuItem>
-                                </Select>
-                            </FormControl>
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid>
+                                <Grid item xs={12} sm={6}>
+                                 <TextField
+                                    required
+                                    fullWidth
+                                    label="End Date"
+                                    name="endDate"
+                                    type="date"
+                                    value={endDate}
+                                    onChange={onChange}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                     }}
+                                     sx={{mt: 2}}
+                                 />
+                                </Grid>
+                            </Grid>
                         </Grid>
+                        
                         <Grid item xs={12} sm={6}>
-                            <TextField
-                                required
-                                fullWidth
-                                label="Goal"
-                                name="goal"
-                                value={goal}
-                                onChange={onChange}
-                            />
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} sm={6}>
+                                    <FormControl fullWidth required>
+                                        <InputLabel>Challenge Type</InputLabel>
+                                        <Select
+                                            name="type"
+                                            value={type}
+                                            label="Challenge Type"
+                                            onChange={onChange}
+                                        >
+                                            <MenuItem value="Physical Activity">Physical Activity</MenuItem>
+                                            <MenuItem value="Nutrition">Nutrition</MenuItem>
+                                            <MenuItem value="Mental Health">Mental Health</MenuItem>
+                                            <MenuItem value="Sleep">Sleep</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            label="Goal"
+                                            name="goal"
+                                            value={goal}
+                                            onChange={onChange}
+                                        />
+                                    </Grid>
+
+                            </Grid>
+                            
                         </Grid>
-                        <Grid item xs={12}>
+                    
+                        <Grid item xs={12} sm={6}>
                             <FormControl fullWidth required>
                                 <InputLabel>Frequency</InputLabel>
                                 <Select

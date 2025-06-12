@@ -85,17 +85,33 @@ function App() {
               </RoleRoute>
             } />
 
+            <Route path='/enroll-participant' element={<PrivateRoute />}>
+              <Route path='/enroll-participant' element={<EnrollParticipant />} />
+            </Route>
+
+            <Route path='/leaderboard' element={<Leaderboard />} />
+
+            <Route path='/upload-resource' element={<PrivateRoute />}>
+              <Route path='/upload-resource' element={<UploadResource />} />
+            </Route>
+
+            <Route path='/register-participant' element={
+              <RoleRoute>
+                <Register />
+              </RoleRoute>
+            } />
+
             <Route path='/enroll-participant' element={
               <RoleRoute allowedRoles={['coordinator']}>
                 <EnrollParticipant />
               </RoleRoute>
             } />
 
-            <Route path='/leaderboard' element={
+            {/* <Route path='/leaderboard' element={
               <RoleRoute allowedRoles={['coordinator', 'participant']}>
                 <Leaderboard />
               </RoleRoute>
-            } />
+            } /> */}
 
             <Route path='/upload-resource' element={
               <RoleRoute allowedRoles={['coordinator']}>
