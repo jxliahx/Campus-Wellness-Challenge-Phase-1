@@ -37,6 +37,11 @@ function C_Dashboard() {
         dispatch(getChallenges())
     }, [dispatch])
 
+    const handleChallengeClick = (challengeId) => {
+        localStorage.setItem('selectedChallengeId', challengeId)
+        navigate('/view-challenge')
+    }
+
     return (
         <Container component="main" maxWidth="lg" className="page-container">
             <Paper className="dashboard-container" sx={{ p: 4 }}>
@@ -80,7 +85,7 @@ function C_Dashboard() {
                             challenges.map((challenge) => (
                                 <Grid item xs={12} sm={6} key={challenge._id}>
                                     <Card>
-                                        <CardActionArea onClick={() => navigate('/view-challenge')}>
+                                        <CardActionArea onClick={() => handleChallengeClick(challenge._id)}>
                                             <CardContent>
                                                 <Typography variant="h6" component="h3" gutterBottom>
                                                     {challenge.name}

@@ -7,49 +7,32 @@
     For: Coordinators
 */
 
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { getChallenges } from '../features/challenges/challengeSlice'
 import {
     Container,
     Paper,
     Typography,
     Box,
+    Divider,
+    IconButton,
+    Grid,
+    Card,
+    CardContent,
     List,
     ListItem,
     ListItemText,
-    Button,
-    Grid,
-    Divider,
-    Card,
-    CardContent,
-    ListItemButton
+    Button
 } from '@mui/material'
-import { FaPlus, FaUserPlus, FaTrophy } from 'react-icons/fa'
+import { FaTrophy, FaComments, FaArrowLeft, FaPlus } from 'react-icons/fa'
 import '../styles/pages.css'
 
 function C_ViewChallenge() {
     const navigate = useNavigate()
-    const [selectedChallenge, setSelectedChallenge] = useState(null)
-
-    // Mock data for now
-    const challenges = [
-        {
-            id: 1,
-            name: 'Daily Steps Challenge',
-            description: 'Walk 10,000 steps every day',
-            startDate: '2024-03-01',
-            endDate: '2024-03-31',
-            participants: 25
-        },
-        {
-            id: 2,
-            name: 'Weekly Workout Challenge',
-            description: 'Complete 3 workouts per week',
-            startDate: '2024-03-01',
-            endDate: '2024-03-31',
-            participants: 15
-        }
-    ]
+    const dispatch = useDispatch()
+    const { challenges, isLoading } = useSelector((state) => state.challenge)
 
     // Mock data for leaderboard
     const leaderboard = [
@@ -70,25 +53,178 @@ function C_ViewChallenge() {
         { rank: 15, name: 'Daniel White', score: 7200 }
     ]
 
+    useEffect(() => {
+        dispatch(getChallenges())
+    }, [dispatch])
+
+    if (!challenges || isLoading) {
+        return <div>Loading...</div>
+    }
+
     return (
         <Container component="main" className="page-container" sx={{ 
             mt: 4,
             maxWidth: '1800px !important',
             width: '100%'
         }}>
+            {/* Back Button */}
+            <IconButton 
+                onClick={() => navigate('/coordinator-dashboard')} 
+                sx={{ position: 'absolute', left: 20, top: 20 }}
+            >
+                <FaArrowLeft />
+            </IconButton>
+
+            {/* Challenge Title */}
             <Typography variant="h4" component="h1" gutterBottom sx={{ 
                 color: '#1976d2',
                 mb: 4,
                 mt: 4,
                 textAlign: 'center'
             }}>
-                Challenge
+                Challenges
             </Typography>
-            <Grid container spacing={3}>
-                {/* Left Section - Challenges List and Buttons */}
-                <Grid item xs={12} md={8}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                        <Paper sx={{ p: 2, mb: 2, flexGrow: 1 }}>
+
+            <Box sx={{ 
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                px: 2
+            }}>
+                <Grid container spacing={3} sx={{ 
+                    maxWidth: '1200px',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: 3
+                }}>
+                    {/* Top Left - Challenge Details */}
+                    <Grid item>
+                        <Paper sx={{ 
+                            p: 2, 
+                            height: '100%',
+                            aspectRatio: '1/1',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
+                            <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: 1,
+                                color: '#1976d2'
+                            }}>
+                                <FaTrophy />
+                                Challenge Details
+                            </Typography>
+                            <List sx={{ flexGrow: 1, overflow: 'auto' }}>
+                                <ListItem>
+                                    <ListItemText 
+                                        primary="Description" 
+                                        secondary={challenges[0]?.description}
+                                    />
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText 
+                                        primary="Type" 
+                                        secondary={challenges[0]?.type}
+                                    />
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText 
+                                        primary="Goal" 
+                                        secondary={challenges[0]?.goal}
+                                    />
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText 
+                                        primary="Frequency" 
+                                        secondary={challenges[0]?.frequency}
+                                    />
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText 
+                                        primary="Date Range" 
+                                        secondary={`${new Date(challenges[0]?.startDate).toLocaleDateString()} to ${new Date(challenges[0]?.endDate).toLocaleDateString()}`}
+                                    />
+                                </ListItem>
+                            </List>
+                        </Paper>
+                    </Grid>
+
+                    {/* Top Right - Leaderboard */}
+                    <Grid item>
+                        <Paper sx={{ 
+                            p: 2, 
+                            height: '100%',
+                            aspectRatio: '1/1',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
+                            <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: 1,
+                                color: '#1976d2'
+                            }}>
+                                <FaTrophy />
+                                Leaderboard
+                            </Typography>
+                            <List sx={{ 
+                                flexGrow: 1,
+                                overflow: 'auto',
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                },
+                                '&::-webkit-scrollbar-track': {
+                                    background: '#f1f1f1',
+                                    borderRadius: '4px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    background: '#888',
+                                    borderRadius: '4px',
+                                    '&:hover': {
+                                        background: '#555',
+                                    },
+                                },
+                            }}>
+                                {leaderboard.map((entry) => (
+                                    <React.Fragment key={entry.rank}>
+                                        <ListItem>
+                                            <ListItemText 
+                                                primary={
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                        <Typography variant="body1" sx={{ fontWeight: 'bold', minWidth: '30px' }}>
+                                                            #{entry.rank}
+                                                        </Typography>
+                                                        <Typography variant="body1">
+                                                            {entry.name}
+                                                        </Typography>
+                                                        <Typography variant="body1" sx={{ marginLeft: 'auto' }}>
+                                                            {entry.score} pts
+                                                        </Typography>
+                                                    </Box>
+                                                }
+                                            />
+                                        </ListItem>
+                                        <Divider />
+                                    </React.Fragment>
+                                ))}
+                            </List>
+                        </Paper>
+                    </Grid>
+
+                    {/* Bottom Left - Challenges Block */}
+                    <Grid item>
+                        <Paper sx={{ 
+                            p: 2, 
+                            height: '100%',
+                            aspectRatio: '1/1',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
                             <Typography variant="h6" component="h2" gutterBottom sx={{ 
                                 display: 'flex', 
                                 alignItems: 'center', 
@@ -98,133 +234,81 @@ function C_ViewChallenge() {
                                 <FaTrophy />
                                 Challenges
                             </Typography>
-                            <List>
-                                {challenges.map((challenge) => (
-                                    <React.Fragment key={challenge.id}>
-                                        <ListItemButton
-                                            selected={selectedChallenge?.id === challenge.id}
-                                            onClick={() => setSelectedChallenge(challenge)}
-                                        >
-                                            <ListItemText
-                                                primary={challenge.name}
-                                                secondary={
-                                                    <>
-                                                        <Typography component="span" variant="body2" color="text.primary">
-                                                            {challenge.description}
-                                                        </Typography>
-                                                        <br />
-                                                        <Typography component="span" variant="caption" color="text.secondary">
-                                                            {challenge.startDate} to {challenge.endDate}
-                                                        </Typography>
-                                                    </>
-                                                }
-                                            />
-                                        </ListItemButton>
-                                        <Divider />
-                                    </React.Fragment>
-                                ))}
-                            </List>
-                        </Paper>
-
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                startIcon={<FaPlus />}
-                                onClick={() => navigate('/create-challenge')}
-                                fullWidth
-                            >
-                                Create Challenge
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                startIcon={<FaUserPlus />}
-                                onClick={() => navigate('/enroll-participant')}
-                                fullWidth
-                            >
-                                Enroll Participant
-                            </Button>
-                        </Box>
-                    </Box>
-                </Grid>
-
-                {/* Right Section - Leaderboard and Forum */}
-                <Grid item xs={12} md={4}>
-                    <Grid container spacing={2} direction="column" sx={{ height: '100%' }}>
-                        {/* Leaderboard Section */}
-                        <Grid item xs={12}>
-                            <Paper sx={{ p: 2 }}>
-                                <Typography variant="h6" component="h2" gutterBottom sx={{ 
-                                    display: 'flex', 
-                                    alignItems: 'center', 
-                                    gap: 1,
-                                    color: '#1976d2'
-                                }}>
-                                    <FaTrophy />
-                                    Leaderboard
-                                </Typography>
-                                <List sx={{ 
-                                    maxHeight: '250px', 
-                                    overflow: 'auto',
-                                    '&::-webkit-scrollbar': {
-                                        width: '8px',
-                                    },
-                                    '&::-webkit-scrollbar-track': {
-                                        background: '#f1f1f1',
-                                        borderRadius: '4px',
-                                    },
-                                    '&::-webkit-scrollbar-thumb': {
-                                        background: '#888',
-                                        borderRadius: '4px',
-                                        '&:hover': {
-                                            background: '#555',
-                                        },
-                                    },
-                                }}>
-                                    {leaderboard.map((entry) => (
-                                        <React.Fragment key={entry.rank}>
+                            <List sx={{ flexGrow: 1, overflow: 'auto' }}>
+                                {challenges && challenges.length > 0 ? (
+                                    challenges.map((challenge) => (
+                                        <React.Fragment key={challenge._id}>
                                             <ListItem>
-                                                <ListItemText
-                                                    primary={
-                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                                            <Typography variant="body1" sx={{ fontWeight: 'bold', minWidth: '30px' }}>
-                                                                #{entry.rank}
-                                                            </Typography>
-                                                            <Typography variant="body1">
-                                                                {entry.name}
-                                                            </Typography>
-                                                            <Typography variant="body1" sx={{ marginLeft: 'auto' }}>
-                                                                {entry.score} pts
-                                                            </Typography>
-                                                        </Box>
-                                                    }
+                                                <ListItemText 
+                                                    primary={challenge.name}
+                                                    secondary={challenge.description}
                                                 />
                                             </ListItem>
                                             <Divider />
                                         </React.Fragment>
-                                    ))}
-                                </List>
-                            </Paper>
-                        </Grid>
+                                    ))
+                                ) : (
+                                    <ListItem>
+                                        <ListItemText 
+                                            primary="No challenges created yet"
+                                            secondary="Create a new challenge to get started"
+                                        />
+                                    </ListItem>
+                                )}
+                            </List>
+                            <Box sx={{ 
+                                flexGrow: 1, 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center'
+                            }}>
+                                <Button
+                                    variant="contained"
+                                    startIcon={<FaPlus />}
+                                    onClick={() => navigate('/challenge-detail')}
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1,
+                                        backgroundColor: '#1976d2',
+                                        '&:hover': {
+                                            backgroundColor: '#1565c0'
+                                        }
+                                    }}
+                                >
+                                    Create challenge
+                                </Button>
+                            </Box>
+                        </Paper>
+                    </Grid>
 
-                        {/* Forum posts */}
-                        <Grid item xs={12}>
-                            <Paper sx={{ p: 2, minHeight: '300px' }}>
-                                <Typography variant="h6" component="h2" gutterBottom sx={{ 
-                                    display: 'flex', 
-                                    alignItems: 'center', 
-                                    gap: 1,
-                                    color: '#1976d2'
-                                }}>
-                                    Forum Posts
+                    {/* Bottom Right - Forum */}
+                    <Grid item>
+                        <Paper sx={{ 
+                            p: 2, 
+                            height: '100%',
+                            aspectRatio: '1/1',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
+                            <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: 1,
+                                color: '#1976d2'
+                            }}>
+                                <FaComments />
+                                Forum Posts
+                            </Typography>
+                            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    Forum discussions will be displayed here
                                 </Typography>
-                                {/* Forum stuff */}
-                            </Paper>
-                        </Grid>
+                            </Box>
+                        </Paper>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Box>
         </Container>
     )
 }

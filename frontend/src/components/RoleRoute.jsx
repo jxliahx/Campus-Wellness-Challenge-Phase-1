@@ -60,7 +60,8 @@ const RoleRoute = ({ children }) => {
             firstPath === 'create-challenge' || 
             firstPath === 'enroll-participant' ||
             firstPath === 'upload-resource' ||
-            firstPath === 'view-challenge') {
+            firstPath === 'view-challenge' ||
+            firstPath === 'challenge-detail') {
             console.log('RoleRoute - Coordinator accessing allowed page')
             return children
         }

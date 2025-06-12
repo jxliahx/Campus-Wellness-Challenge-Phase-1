@@ -21,6 +21,7 @@ import CreateChallenge from './pages/C_CreateChallenge'
 import Leaderboard from './pages/B_Leaderboard'
 import UploadResource from './pages/C_UploadResource'
 import EnrollParticipant from './pages/C_Enroll.jsx'
+import C_ChallengeDetail from './pages/C_ChallengeDetail'
 
 // Logged in users
 import PrivateRoute from './components/PrivateRoute'
@@ -52,7 +53,7 @@ function App() {
             </Route>
 
             <Route path='/coordinator-dashboard' element={
-              <RoleRoute>
+              <RoleRoute allowedRoles={['coordinator']}>
                 <CoordinatorDashboard />
               </RoleRoute>
             } />
@@ -70,8 +71,8 @@ function App() {
             } />
 
             <Route path='/view-challenge' element={
-              <RoleRoute>
-                <ViewChallenge />                                         //TODO
+              <RoleRoute allowedRoles={['coordinator']}>
+                <ViewChallenge />
               </RoleRoute>
             } />
 
@@ -96,6 +97,12 @@ function App() {
             <Route path='/register-coordinator' element={
               <RoleRoute>
                 <CoordinatorRegister />
+              </RoleRoute>
+            } />
+
+            <Route path='/challenge-detail' element={
+              <RoleRoute allowedRoles={['coordinator']}>
+                <C_ChallengeDetail />
               </RoleRoute>
             } />
 
