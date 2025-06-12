@@ -9,6 +9,7 @@
 
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { getParticipantChallenges } from '../features/participantChallenges/participantChallengesSlice'
 import {
     Container,
@@ -27,6 +28,7 @@ import { FaUser, FaTrophy, FaMedal } from 'react-icons/fa'
 import '../styles/pages.css'
 
 function P_Dashboard() {
+    const navigate = useNavigate()
     const { user } = useSelector((state) => state.auth)
     const { challenges, isLoading, error } = useSelector((state) => state.participantChallenges)
     const dispatch = useDispatch()
@@ -41,6 +43,11 @@ function P_Dashboard() {
         console.log('Loading state:', isLoading)
         console.log('Error state:', error)
     }, [challenges, isLoading, error])
+
+    const handleChallengeClick = (challengeId) => {
+        localStorage.setItem('selectedChallengeId', challengeId)
+        navigate('/participant/view-challenge')
+    }
 
     // Mock data for achievements - replace with actual data from your backend
     const achievements = [
@@ -107,7 +114,17 @@ function P_Dashboard() {
                         <Grid container spacing={2}>
                             {challenges.map((challenge) => (
                                 <Grid item xs={12} sm={6} key={challenge._id}>
-                                    <Card>
+                                    <Card 
+                                        onClick={() => handleChallengeClick(challenge._id)}
+                                        sx={{ 
+                                            cursor: 'pointer',
+                                            transition: 'transform 0.2s, box-shadow 0.2s',
+                                            '&:hover': {
+                                                transform: 'translateY(-4px)',
+                                                boxShadow: 3
+                                            }
+                                        }}
+                                    >
                                         <CardContent>
                                             <Typography variant="h6" component="h3" gutterBottom>
                                                 {challenge.name}
