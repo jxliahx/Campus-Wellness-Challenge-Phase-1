@@ -7,7 +7,7 @@
     For: Coordinators
 */
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getChallenges } from '../features/challenges/challengeSlice'
@@ -37,6 +37,7 @@ function C_ViewChallenge() {
     const dispatch = useDispatch()
     const { challenges, isLoading: challengesLoading } = useSelector((state) => state.challenge)
     const { leaderboard, isLoading: leaderboardLoading } = useSelector((state) => state.leaderboard)
+    const [selectedChallenge, setSelectedChallenge] = useState(null)
 
     useEffect(() => {
         dispatch(getChallenges())
@@ -44,11 +45,19 @@ function C_ViewChallenge() {
 
     useEffect(() => {
         if (challenges && challenges.length > 0) {
-            dispatch(getLeaderboard(challenges[0]._id))
+            const selectedChallengeId = localStorage.getItem('selectedChallengeId')
+            const challenge = selectedChallengeId 
+                ? challenges.find(c => c._id === selectedChallengeId)
+                : challenges[0]
+            
+            if (challenge) {
+                setSelectedChallenge(challenge)
+                dispatch(getLeaderboard(challenge._id))
+            }
         }
     }, [dispatch, challenges])
 
-    if (!challenges || challengesLoading) {
+    if (!challenges || challengesLoading || !selectedChallenge) {
         return <div>Loading...</div>
     }
 
@@ -78,7 +87,7 @@ function C_ViewChallenge() {
                 mt: 4,
                 textAlign: 'center'
             }}>
-                {challenges[0]?.name || 'Challenges'}
+                {selectedChallenge.name}
             </Typography>
 
             <Box sx={{ 
@@ -115,35 +124,35 @@ function C_ViewChallenge() {
                                 <ListItem>
                                     <ListItemText 
                                         primary="Description" 
-                                        secondary={challenges[0]?.description}
+                                        secondary={selectedChallenge.description}
                                     />
                                 </ListItem>
                                 <Divider />
                                 <ListItem>
                                     <ListItemText 
                                         primary="Type" 
-                                        secondary={challenges[0]?.type}
+                                        secondary={selectedChallenge.type}
                                     />
                                 </ListItem>
                                 <Divider />
                                 <ListItem>
                                     <ListItemText 
                                         primary="Goal" 
-                                        secondary={challenges[0]?.goal}
+                                        secondary={selectedChallenge.goal}
                                     />
                                 </ListItem>
                                 <Divider />
                                 <ListItem>
                                     <ListItemText 
                                         primary="Frequency" 
-                                        secondary={challenges[0]?.frequency}
+                                        secondary={selectedChallenge.frequency}
                                     />
                                 </ListItem>
                                 <Divider />
                                 <ListItem>
                                     <ListItemText 
                                         primary="Date Range" 
-                                        secondary={`${new Date(challenges[0]?.startDate).toLocaleDateString()} to ${new Date(challenges[0]?.endDate).toLocaleDateString()}`}
+                                        secondary={`${new Date(selectedChallenge.startDate).toLocaleDateString()} to ${new Date(selectedChallenge.endDate).toLocaleDateString()}`}
                                     />
                                 </ListItem>
                             </List>
