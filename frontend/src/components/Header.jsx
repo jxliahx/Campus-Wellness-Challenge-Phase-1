@@ -68,9 +68,9 @@ function Header() {
                                     Leaderboard
                                 </Link>
 
-                                <Link tp='/forum' className='header-button'>
+                                {/* <Link tp='/forum' className='header-button'>                        // ENABLE IN PHASE 2
                                     Forum
-                                </Link>
+                                </Link> */}
 
                                 <Button
                                     onClick={onLogout}

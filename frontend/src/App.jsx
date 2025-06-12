@@ -4,8 +4,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 // Layout
 import Header from './components/Header'
-import CoordinatorHeader from './components/C_Header'
-import ParticipantHeader from './components/P_Header'
+// import CoordinatorHeader from './components/C_Header'
+// import ParticipantHeader from './components/P_Header'
 
 // Pages
 import Homepage from './pages/B_Homepage'
