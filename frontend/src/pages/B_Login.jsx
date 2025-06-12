@@ -109,9 +109,31 @@ function Login() {
         if (role === 'participant') {
             console.log('Dispatching loginParticipant')
             dispatch(loginParticipant(userData))
+                .unwrap()
+                .then((response) => {
+                    if (response.role !== 'participant') {
+                        toast.error('This account is not a participant account')
+                        dispatch(reset())
+                        return
+                    }
+                })
+                .catch((error) => {
+                    toast.error(error)
+                })
         } else {
             console.log('Dispatching loginCoordinator')
             dispatch(loginCoordinator(userData))
+                .unwrap()
+                .then((response) => {
+                    if (response.role !== 'coordinator') {
+                        toast.error('This account is not a coordinator account')
+                        dispatch(reset())
+                        return
+                    }
+                })
+                .catch((error) => {
+                    toast.error(error)
+                })
         }
     }
 
