@@ -86,7 +86,7 @@ function Register() {
     return (
         <Container component="main" maxWidth="md" className="page-container">
         {/* Back Arrow */}
-        <IconButton onClick={() => navigate('/')} sx={{position: 'absolute', left: 450, mt: 6}}>
+        <IconButton onClick={() => navigate('/pick-role')} sx={{position: 'absolute', left: 450, mt: 6}}>
             <ArrowBackIosNewIcon />
         </IconButton>
 

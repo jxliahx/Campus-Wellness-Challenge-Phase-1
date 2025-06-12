@@ -87,9 +87,7 @@ function App() {
               <Route path='/enroll-participant' element={<EnrollParticipant />} />
             </Route>
 
-            <Route path='/leaderboard' element={<PrivateRoute />}>
-              <Route path='/leaderboard' element={<Leaderboard />} />
-            </Route>
+            <Route path='/leaderboard' element={<Leaderboard />} />
 
             <Route path='/upload-resource' element={<PrivateRoute />}>
               <Route path='/upload-resource' element={<UploadResource />} />
