@@ -62,15 +62,15 @@ function Header() {
                                     Home
                                 </Link>
 
-                                <Link to='/view-challenge' className='header-button'>
+                                {/* <Link to='/view-challenge' className='header-button'>
                                     <FlagIcon style={{verticalAlign: 'middle', marginTop: '-2px', fontSize: 20}} />
                                     Challenges
-                                </Link>
+                                </Link> */}
 
-                                <Link to='/leaderboard' className='header-button'>
+                                {/* <Link to='/leaderboard' className='header-button'>
                                     <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px', fontSize: 15}} />
                                     Leaderboard
-                                </Link>
+                                </Link> */}
 
                                 {/* <Link tp='/forum' className='header-button'>                        // ENABLE IN PHASE 2
                                     Forum
@@ -88,13 +88,20 @@ function Header() {
                             </Box>
                         ) : (
                             <Box sx={{ display: 'flex', gap: 2 }}>
-                                <li>
-                                    <Link to='/leaderboard' className='header-button'>
-                                        <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px'}} />
-                                        Leaderboard
-                                    </Link>
-                                </li>
-                                
+                                {/* <Link to='/view-challenge' className='header-button'>
+                                    <FlagIcon style={{verticalAlign: 'middle', marginTop: '-2px', fontSize: 20}} />
+                                    Challenges
+                                </Link> */}
+
+                                {/* <Link to='/leaderboard' className='header-button'>
+                                    <FaTrophy style={{verticalAlign: 'middle', marginTop: '-1px', fontSize: 15}} />
+                                    Leaderboard
+                                </Link> */}
+
+                                {/* <Link tp='/forum' className='header-button'>                        // ENABLE IN PHASE 2
+                                    Forum
+                                </Link> */}
+
                                 <Button
                                     component={Link}
                                     to="/login"
