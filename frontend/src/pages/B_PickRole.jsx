@@ -14,8 +14,10 @@ import {
   Typography, 
   Button, 
   Box,
-  Paper
+  Paper,
+  IconButton
 } from '@mui/material';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import '../styles/pages.css';
 
 function PickRole() {
@@ -23,6 +25,11 @@ function PickRole() {
 
   return (
     <Container component="main" maxWidth="sm" className="page-container">
+      {/* Back Arrow */}
+      <IconButton onClick={() => navigate('/')} sx={{position: 'absolute', left: 450, mt: 6}}>
+          <ArrowBackIosNewIcon />
+      </IconButton>
+
       <Paper className="homepage-container">
         <Typography 
           component="h1" 
