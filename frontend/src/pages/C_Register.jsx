@@ -23,9 +23,11 @@ import {
   Button,
   Box,
   Icon,
-  Link
+  Link,
+  IconButton
 } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import '../styles/pages.css'
 
 function Register() {
@@ -83,6 +85,11 @@ function Register() {
 
     return (
         <Container component="main" maxWidth="md" className="page-container">
+        {/* Back Arrow */}
+        <IconButton onClick={() => navigate('/')} sx={{position: 'absolute', left: 450, mt: 6}}>
+            <ArrowBackIosNewIcon />
+        </IconButton>
+
             <Paper className="auth-container">
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
                     <Typography component="h1" variant="h4" className="auth-title" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
