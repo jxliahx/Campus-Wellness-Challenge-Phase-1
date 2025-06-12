@@ -10,7 +10,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { getChallenge } from '../features/challenges/challengeSlice'
+import { getChallenge, getChallenges } from '../features/challenges/challengeSlice'
 import { getLeaderboard } from '../features/leaderboard/leaderboardSlice'
 import {
     Container,
@@ -26,13 +26,14 @@ import {
     CircularProgress,
     Alert
 } from '@mui/material'
-import { FaTrophy, FaArrowLeft } from 'react-icons/fa'
+import { FaTrophy, FaComments, FaArrowLeft } from 'react-icons/fa'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import '../styles/pages.css'
 
 function P_ViewChallenge() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { challenge, isLoading: challengeLoading, isError: challengeError, message: challengeMessage } = useSelector((state) => state.challenge)
+    const { challenge, challenges, isLoading: challengeLoading, isError: challengeError, message: challengeMessage } = useSelector((state) => state.challenge)
     const { leaderboard, isLoading: leaderboardLoading } = useSelector((state) => state.leaderboard)
     const { user } = useSelector((state) => state.auth)
 
@@ -56,6 +57,7 @@ function P_ViewChallenge() {
         // Fetch challenge and leaderboard data
         Promise.all([
             dispatch(getChallenge(challengeId)),
+            dispatch(getChallenges()),
             dispatch(getLeaderboard(challengeId))
         ]).catch(error => {
             console.error('Error fetching data:', error)
@@ -115,6 +117,11 @@ function P_ViewChallenge() {
                 sx={{ position: 'absolute', left: 20, top: 20 }}
             >
                 <FaArrowLeft />
+            </IconButton>
+
+            {/* Back Arrow */}
+            <IconButton onClick={() => navigate('/participant-dashboard')} sx={{position: 'absolute', left: 450, mt: 5}}>
+                <ArrowBackIosNewIcon />
             </IconButton>
 
             {/* Challenge Title */}
@@ -233,7 +240,7 @@ function P_ViewChallenge() {
                                 },
                             }}>
                                 {leaderboardLoading ? (
-                                    <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                                         <CircularProgress />
                                     </Box>
                                 ) : leaderboard && leaderboard.length > 0 ? (
@@ -242,18 +249,12 @@ function P_ViewChallenge() {
                                             <ListItem>
                                                 <ListItemText
                                                     primary={
-                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                                            <Typography variant="body1" sx={{ 
-                                                                fontWeight: 'bold',
-                                                                color: index < 3 ? '#1976d2' : 'inherit'
-                                                            }}>
-                                                                #{index + 1}
-                                                            </Typography>
+                                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                             <Typography variant="body1">
-                                                                {entry.participant.name}
+                                                                {index + 1}. {entry.participant.name}
                                                             </Typography>
-                                                            <Typography variant="body1" sx={{ ml: 'auto' }}>
-                                                                {entry.points} points
+                                                            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                                                                {entry.points} pts
                                                             </Typography>
                                                         </Box>
                                                     }
@@ -264,13 +265,79 @@ function P_ViewChallenge() {
                                     ))
                                 ) : (
                                     <ListItem>
+                                        <ListItemText primary="No participants enrolled yet" />
+                                    </ListItem>
+                                )}
+                            </List>
+                        </Paper>
+                    </Grid>
+
+                    {/* Bottom Left - Enrolled Challenges */}
+                    <Grid item>
+                        <Paper sx={{ 
+                            p: 2, 
+                            height: '100%',
+                            aspectRatio: '1/1',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
+                            <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: 1,
+                                color: '#1976d2'
+                            }}>
+                                <FaTrophy />
+                                Enrolled Challenges
+                            </Typography>
+                            <List sx={{ flexGrow: 1, overflow: 'auto' }}>
+                                {challenges && challenges.length > 0 ? (
+                                    challenges.map((challenge) => (
+                                        <React.Fragment key={challenge._id}>
+                                            <ListItem>
+                                                <ListItemText 
+                                                    primary={challenge.name}
+                                                    secondary={challenge.description}
+                                                />
+                                            </ListItem>
+                                            <Divider />
+                                        </React.Fragment>
+                                    ))
+                                ) : (
+                                    <ListItem>
                                         <ListItemText 
-                                            primary="No participants yet" 
-                                            sx={{ textAlign: 'center' }}
+                                            primary="No challenges enrolled yet"
+                                            secondary="Enroll in challenges to track your progress"
                                         />
                                     </ListItem>
                                 )}
                             </List>
+                        </Paper>
+                    </Grid>
+
+                    {/* Bottom Right - Forum */}
+                    <Grid item>
+                        <Paper sx={{ 
+                            p: 2, 
+                            height: '100%',
+                            aspectRatio: '1/1',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}>
+                            <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: 1,
+                                color: '#1976d2'
+                            }}>
+                                <FaComments />
+                                Forum Posts
+                            </Typography>
+                            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    Forum discussions will be displayed here
+                                </Typography>
+                            </Box>
                         </Paper>
                     </Grid>
                 </Grid>
