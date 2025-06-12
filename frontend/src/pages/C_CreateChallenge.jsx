@@ -126,7 +126,7 @@ function C_CreateChallenge() {
                                 onChange={onChange}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6} sx={{width: 200}}>
                             <Grid container spacing={2}>
                                 <TextField
                                     required
@@ -163,7 +163,7 @@ function C_CreateChallenge() {
                         <Grid item xs={12} sm={6}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} sm={6}>
-                                    <FormControl fullWidth required>
+                                    <FormControl fullWidth required sx={{width: 200}}>
                                         <InputLabel>Challenge Type</InputLabel>
                                         <Select
                                             name="type"
@@ -194,7 +194,7 @@ function C_CreateChallenge() {
                         </Grid>
                     
                         <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth required>
+                            <FormControl fullWidth required sx={{width: 200}}>
                                 <InputLabel>Frequency</InputLabel>
                                 <Select
                                     name="frequency"
