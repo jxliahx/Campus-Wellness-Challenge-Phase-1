@@ -73,7 +73,8 @@ function Header() {
                                 </Link> */}
 
                                 <Button
-                                    onClick={onLogout}
+                                    component={Link}
+                                    to="/logout"
                                     className="header-button"
                                     startIcon={<FaSignInAlt style={{verticalAlign: 'middle', marginTop: '-1px'}} />}
 
