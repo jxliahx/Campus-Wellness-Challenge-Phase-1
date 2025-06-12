@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getChallenge, getChallenges } from '../features/challenges/challengeSlice'
 import { getLeaderboard } from '../features/leaderboard/leaderboardSlice'
+import { getChallengeResources } from '../features/resources/resourceSlice'
 import {
     Container,
     Paper,
@@ -24,9 +25,10 @@ import {
     ListItem,
     ListItemText,
     CircularProgress,
-    Alert
+    Alert,
+    Link
 } from '@mui/material'
-import { FaTrophy, FaComments, FaArrowLeft } from 'react-icons/fa'
+import { FaTrophy, FaComments, FaArrowLeft, FaFile } from 'react-icons/fa'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import '../styles/pages.css'
 
@@ -35,6 +37,7 @@ function P_ViewChallenge() {
     const dispatch = useDispatch()
     const { challenge, challenges, isLoading: challengeLoading, isError: challengeError, message: challengeMessage } = useSelector((state) => state.challenge)
     const { leaderboard, isLoading: leaderboardLoading } = useSelector((state) => state.leaderboard)
+    const { resources, isLoading: resourcesLoading } = useSelector((state) => state.resources)
     const { user } = useSelector((state) => state.auth)
 
     useEffect(() => {
@@ -58,7 +61,8 @@ function P_ViewChallenge() {
         Promise.all([
             dispatch(getChallenge(challengeId)),
             dispatch(getChallenges()),
-            dispatch(getLeaderboard(challengeId))
+            dispatch(getLeaderboard(challengeId)),
+            dispatch(getChallengeResources(challengeId))
         ]).catch(error => {
             console.error('Error fetching data:', error)
         })
@@ -272,7 +276,7 @@ function P_ViewChallenge() {
                         </Paper>
                     </Grid>
 
-                    {/* Bottom Left - Enrolled Challenges */}
+                    {/* Bottom Left - Resources */}
                     <Grid item>
                         <Paper sx={{ 
                             p: 2, 
@@ -287,17 +291,35 @@ function P_ViewChallenge() {
                                 gap: 1,
                                 color: '#1976d2'
                             }}>
-                                <FaTrophy />
-                                Enrolled Challenges
+                                <FaFile />
+                                Resources
                             </Typography>
                             <List sx={{ flexGrow: 1, overflow: 'auto' }}>
-                                {challenges && challenges.length > 0 ? (
-                                    challenges.map((challenge) => (
-                                        <React.Fragment key={challenge._id}>
+                                {resourcesLoading ? (
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                                        <CircularProgress />
+                                    </Box>
+                                ) : resources && resources.length > 0 ? (
+                                    resources.map((resource) => (
+                                        <React.Fragment key={resource._id}>
                                             <ListItem>
-                                                <ListItemText 
-                                                    primary={challenge.name}
-                                                    secondary={challenge.description}
+                                                <ListItemText
+                                                    primary={resource.title}
+                                                    secondary={
+                                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                            <Typography variant="body2">
+                                                                {resource.fileName}
+                                                            </Typography>
+                                                            <Link
+                                                                href={resource.fileUrl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                sx={{ ml: 2 }}
+                                                            >
+                                                                Download
+                                                            </Link>
+                                                        </Box>
+                                                    }
                                                 />
                                             </ListItem>
                                             <Divider />
@@ -305,10 +327,7 @@ function P_ViewChallenge() {
                                     ))
                                 ) : (
                                     <ListItem>
-                                        <ListItemText 
-                                            primary="No challenges enrolled yet"
-                                            secondary="Enroll in challenges to track your progress"
-                                        />
+                                        <ListItemText primary="No resources uploaded yet" />
                                     </ListItem>
                                 )}
                             </List>

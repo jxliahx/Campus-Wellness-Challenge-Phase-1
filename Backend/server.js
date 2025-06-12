@@ -21,16 +21,21 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'))
+
 // Routes
 const participantRoutes = require('./routes/participantRoutes')
 const coordinatorRoutes = require('./routes/coordinatorRoutes')
 const challengeRoutes = require('./routes/challengeRoutes')
 const leaderboardRoutes = require('./routes/leaderboardRoutes')
+const resourceRoutes = require('./routes/resourceRoutes')
 
 app.use('/api/participants', participantRoutes)
 app.use('/api/coordinators', coordinatorRoutes)
 app.use('/api/challenges', challengeRoutes)
 app.use('/api/leaderboard', leaderboardRoutes)
+app.use('/api/resources', resourceRoutes)
 
 // Error handler
 app.use(errorHandler)
