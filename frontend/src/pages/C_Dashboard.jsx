@@ -43,7 +43,7 @@ function C_Dashboard() {
     }
 
     return (
-        <Container component="main" maxWidth="lg" className="page-container">
+        <Container component="main" maxWidth="lg" className="page-container" sx={{mt: 10}}>
             <Paper className="dashboard-container" sx={{ p: 4 }}>
                 {/* User Info Section */}
                 <Box sx={{ 

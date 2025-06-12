@@ -27,6 +27,7 @@ import {
     Button
 } from '@mui/material'
 import { FaTrophy, FaComments, FaArrowLeft, FaPlus } from 'react-icons/fa'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import '../styles/pages.css'
 
 function C_ViewChallenge() {
@@ -63,7 +64,7 @@ function C_ViewChallenge() {
 
     return (
         <Container component="main" className="page-container" sx={{ 
-            mt: 4,
+            mt: 5,
             maxWidth: '1800px !important',
             width: '100%'
         }}>
@@ -73,6 +74,11 @@ function C_ViewChallenge() {
                 sx={{ position: 'absolute', left: 20, top: 20 }}
             >
                 <FaArrowLeft />
+            </IconButton>
+
+            {/* Back Arrow */}
+            <IconButton onClick={() => navigate('/view-challenge')} sx={{position: 'absolute', left: 450, mt: 5}}>
+                <ArrowBackIosNewIcon />
             </IconButton>
 
             {/* Challenge Title */}
