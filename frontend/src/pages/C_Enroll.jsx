@@ -21,6 +21,7 @@ import {
     IconButton,
 } from '@mui/material'
 import { FaCheck, FaPlus } from 'react-icons/fa'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import '../styles/pages.css'
 
 function EnrollParticipant() {
@@ -47,11 +48,21 @@ function EnrollParticipant() {
         setSelectedChallenges((prev) => prev.includes(id) ? prev.filter((cid) => cid !== id) : [...prev, id])
     }
 
+    const navigate = useNavigate();
+
     return (
         <Box className="enroll-page" sx={{mt: 15, textAlign: 'center'}}>
-            <Typography variant="h4" sx={{mb: 4}}>
-                Enroll
-            </Typography>
+            <Box sx={{position: 'relative', mb: 2}}>
+                {/* Back Arrow */}
+                <IconButton onClick={() => navigate('/view-challenge')} sx={{position: 'absolute', left: 0}}>
+                    <ArrowBackIosNewIcon />
+                </IconButton>
+
+                {/* Page Title */}
+                <Typography variant="h4" sx={{mb: 4}}>
+                    Enroll
+                </Typography>
+            </Box>
 
             <Box sx={{display: 'flex', justifyContent: 'center', gap: 4}}>
 
