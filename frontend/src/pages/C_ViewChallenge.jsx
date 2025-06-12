@@ -76,7 +76,7 @@ function C_ViewChallenge() {
             </IconButton>
 
             {/* Back Arrow */}
-            <IconButton onClick={() => navigate('/view-challenge')} sx={{position: 'absolute', left: 450, mt: 5}}>
+            <IconButton onClick={() => navigate('/coordinator-dashboard')} sx={{position: 'absolute', left: 450, mt: 5}}>
                 <ArrowBackIosNewIcon />
             </IconButton>
 
