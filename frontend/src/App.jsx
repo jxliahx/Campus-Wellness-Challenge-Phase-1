@@ -31,6 +31,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import RoleRoute from './components/RoleRoute'
+
 function App() {
   return (
     <>
@@ -48,21 +50,29 @@ function App() {
               <Route path='/logout' element={<Logout />} />
             </Route>
 
-            <Route path='/coordinator-dashboard' element={<PrivateRoute />}>
-              <Route path='/coordinator-dashboard' element={<CoordinatorDashboard />} />
-            </Route>
+            <Route path='/coordinator-dashboard' element={
+              <RoleRoute>
+                <CoordinatorDashboard />
+              </RoleRoute>
+            } />
 
-            <Route path='/create-challenge' element={<PrivateRoute />}>
-              <Route path='/create-challenge' element={<CreateChallenge />} />
-            </Route>
+            <Route path='/create-challenge' element={
+              <RoleRoute>
+                <CreateChallenge />
+              </RoleRoute>
+            } />
 
-            <Route path='/participant-dashboard' element={<PrivateRoute />}>
-              <Route path='/participant-dashboard' element={<ParticipantDashboard />} />
-            </Route>
+            <Route path='/participant-dashboard' element={
+              <RoleRoute>
+                <ParticipantDashboard />
+              </RoleRoute>
+            } />
 
-            <Route path='/view-challenge' element={<PrivateRoute />}>
-              <Route path='/view-challenge' element={<ViewChallenge />} />
-            </Route>
+            <Route path='/view-challenge' element={
+              <RoleRoute>
+                <ViewChallenge />
+              </RoleRoute>
+            } />
 
             <Route path='/leaderboard' element={<PrivateRoute />}>
               <Route path='/leaderboard' element={<Leaderboard />} />
@@ -71,6 +81,18 @@ function App() {
             <Route path='/upload-resource' element={<PrivateRoute />}>
               <Route path='/upload-resource' element={<UploadResource />} />
             </Route>
+
+            <Route path='/register-participant' element={
+              <RoleRoute>
+                <Register />
+              </RoleRoute>
+            } />
+
+            <Route path='/register-coordinator' element={
+              <RoleRoute>
+                <CoordinatorRegister />
+              </RoleRoute>
+            } />
 
           </Routes>
         </div>

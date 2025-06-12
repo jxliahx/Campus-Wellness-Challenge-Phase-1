@@ -9,7 +9,7 @@
 
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
     Container,
     Paper,
@@ -21,7 +21,6 @@ import {
     Grid,
     Card,
     CardContent,
-    LinearProgress,
     CardActionArea
 } from '@mui/material'
 import { FaUser, FaPlus, FaUserPlus, FaTrophy } from 'react-icons/fa'
@@ -29,32 +28,11 @@ import '../styles/pages.css'
 
 function C_Dashboard() {
     const { user } = useSelector((state) => state.auth)
+    const { challenges } = useSelector((state) => state.challenge)
     const navigate = useNavigate()
 
-    // Mock data for created challenges - replace with actual data from your backend
-    const createdChallenges = [
-        {
-            id: 1,
-            name: 'Daily Steps Challenge',
-            description: 'Walk 10,000 steps every day',
-            progress: 75,
-            startDate: '2024-03-01',
-            endDate: '2024-03-31',
-            participants: 25
-        },
-        {
-            id: 2,
-            name: 'Weekly Workout Challenge',
-            description: 'Complete 3 workouts per week',
-            progress: 50,
-            startDate: '2024-03-01',
-            endDate: '2024-03-31',
-            participants: 15
-        }
-    ]
-
     return (
-        <Container component="main" maxWidth="md" className="page-container">
+        <Container component="main" maxWidth="lg" className="page-container">
             <Paper className="dashboard-container" sx={{ p: 4 }}>
                 {/* User Info Section */}
                 <Box sx={{ 
@@ -92,45 +70,44 @@ function C_Dashboard() {
                         Your Challenges
                     </Typography>
                     <Grid container spacing={2}>
-                        {createdChallenges.map((challenge) => (
-                            <Grid item xs={12} sm={6} key={challenge.id}>
-                                <Card>
-                                    <CardActionArea onClick={() => navigate('/view-challenge')}>
-                                        <CardContent>
-                                            <Typography variant="h6" component="h3" gutterBottom>
-                                                {challenge.name}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary" paragraph>
-                                                {challenge.description}
-                                            </Typography>
-                                            <Box sx={{ mb: 2 }}>
-                                                <Typography variant="body2" color="text.secondary" gutterBottom>
-                                                    Progress: {challenge.progress}%
+                        {Array.isArray(challenges) && challenges.length > 0 ? (
+                            challenges.map((challenge) => (
+                                <Grid item xs={12} sm={6} key={challenge._id}>
+                                    <Card>
+                                        <CardActionArea onClick={() => navigate('/view-challenge')}>
+                                            <CardContent>
+                                                <Typography variant="h6" component="h3" gutterBottom>
+                                                    {challenge.name}
                                                 </Typography>
-                                                <LinearProgress 
-                                                    variant="determinate" 
-                                                    value={challenge.progress} 
-                                                    sx={{ 
-                                                        height: 8, 
-                                                        borderRadius: 4,
-                                                        backgroundColor: '#e0e0e0',
-                                                        '& .MuiLinearProgress-bar': {
-                                                            backgroundColor: '#1976d2'
-                                                        }
-                                                    }}
-                                                />
-                                            </Box>
-                                            <Typography variant="caption" color="text.secondary" display="block">
-                                                {challenge.startDate} to {challenge.endDate}
-                                            </Typography>
-                                            <Typography variant="caption" color="text.secondary">
-                                                {challenge.participants} participants
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
+                                                <Typography variant="body2" color="text.secondary" paragraph>
+                                                    {challenge.description}
+                                                </Typography>
+                                                <Box sx={{ mb: 2 }}>
+                                                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                        Type: {challenge.type}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                        Goal: {challenge.goal}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                                                        Frequency: {challenge.frequency}
+                                                    </Typography>
+                                                </Box>
+                                                <Typography variant="caption" color="text.secondary" display="block">
+                                                    {new Date(challenge.startDate).toLocaleDateString()} to {new Date(challenge.endDate).toLocaleDateString()}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            ))
+                        ) : (
+                            <Grid item xs={12}>
+                                <Typography variant="body1" color="text.secondary" align="center">
+                                    No challenges created yet. Click the button below to create your first challenge!
+                                </Typography>
                             </Grid>
-                        ))}
+                        )}
                     </Grid>
                 </Box>
 
@@ -141,16 +118,17 @@ function C_Dashboard() {
                     alignItems: 'center',
                     gap: 2
                 }}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        startIcon={<FaPlus />}
-                        onClick={() => navigate('/create-challenge')}
-                        sx={{ width: '100%', maxWidth: 400 }}
-                    >
-                        Create Challenge
-                    </Button>
+                    <Link to="/create-challenge" style={{ textDecoration: 'none', width: '100%', maxWidth: 400 }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            startIcon={<FaPlus />}
+                            fullWidth
+                        >
+                            Create Challenge
+                        </Button>
+                    </Link>
 
                     <Box sx={{ 
                         display: 'flex', 

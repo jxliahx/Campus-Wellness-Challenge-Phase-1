@@ -51,17 +51,33 @@ function Login() {
             toast.error(message)
         }
 
-        if (isSuccess || user) {
-            // Redirect based on role
-            if (role === 'coordinator') {
+        if (isSuccess && user) {
+            console.log('Login successful, navigating with user:', user)
+            console.log('User role:', user.role)
+            console.log('Selected role:', role)
+            
+            // Ensure we have a role before navigating
+            if (!user.role) {
+                console.error('User object missing role:', user)
+                toast.error('Login error: User role not found')
+                return
+            }
+
+            // Navigate based on the role from the user object, not the form
+            if (user.role === 'coordinator') {
+                console.log('Navigating to coordinator dashboard')
                 navigate('/coordinator-dashboard')
-            } else {
+            } else if (user.role === 'participant') {
+                console.log('Navigating to participant dashboard')
                 navigate('/participant-dashboard')
+            } else {
+                console.error('Unknown user role:', user.role)
+                toast.error('Login error: Unknown user role')
             }
         }
 
         dispatch(reset())
-    }, [user, isError, isSuccess, message, navigate, dispatch, role])
+    }, [user, isError, isSuccess, message, navigate, dispatch])
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -72,13 +88,27 @@ function Login() {
 
     const onSubmit = (e) => {
         e.preventDefault()
+        
+        // Validate form data
+        if (!email || !password) {
+            toast.error('Please fill in all fields')
+            return
+        }
+
         const userData = {
             email,
             password,
+            role // Include role in the user data
         }
+
+        console.log('Submitting login with data:', userData)
+
+        // Use the role from the form to determine which login function to call
         if (role === 'participant') {
+            console.log('Dispatching loginParticipant')
             dispatch(loginParticipant(userData))
         } else {
+            console.log('Dispatching loginCoordinator')
             dispatch(loginCoordinator(userData))
         }
     }
