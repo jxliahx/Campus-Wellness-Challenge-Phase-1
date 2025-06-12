@@ -4,6 +4,7 @@ import challengeReducer from '../features/challenges/challengeSlice'
 import participantReducer from '../features/participants/participantSlice'
 import leaderboardReducer from '../features/leaderboard/leaderboardSlice'
 import participantChallengesReducer from '../features/participantChallenges/participantChallengesSlice'
+import resourceReducer from '../features/resources/resourceSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     challenge: challengeReducer,
     participants: participantReducer,
     leaderboard: leaderboardReducer,
-    participantChallenges: participantChallengesReducer
+    participantChallenges: participantChallengesReducer,
+    resources: resourceReducer
   },
 });
