@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const Participant = require('../models/participantModel')
+const mongoose = require('mongoose')
 
 // @desc Register new participant
 // @route POST /api/participants
@@ -121,8 +122,32 @@ const getMe = asyncHandler(async(req, res) => {
 // @route GET /api/participants
 // @access Private
 const getParticipants = asyncHandler(async(req, res) => {
-    const participants = await Participant.find({}).select('-password')
-    res.status(200).json(participants)
+    try {
+        console.log('Getting all participants...')
+        console.log('Database name:', mongoose.connection.db.databaseName)
+        console.log('Collection name:', Participant.collection.name)
+        
+        // Find all participants
+        const participants = await Participant.find({}).select('-password')
+        console.log('Found participants:', participants)
+        console.log('Number of participants found:', participants.length)
+        
+        // Log each participant's details
+        participants.forEach((participant, index) => {
+            console.log(`Participant ${index + 1}:`, {
+                id: participant._id,
+                name: participant.name,
+                email: participant.email,
+                role: participant.role,
+                collection: participant.collection.name
+            })
+        })
+        
+        res.status(200).json(participants)
+    } catch (error) {
+        console.error('Error in getParticipants:', error)
+        res.status(500).json({ message: error.message })
+    }
 })
 
 // Generate JWT

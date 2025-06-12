@@ -34,6 +34,7 @@ const loginParticipant = async (userData) => {
 
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
+        localStorage.setItem('token', response.data.token)
     }
     return response.data
 }
@@ -46,6 +47,7 @@ const loginCoordinator = async (userData) => {
 
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
+        localStorage.setItem('token', response.data.token)
     }
     return response.data
 }
@@ -54,6 +56,7 @@ const loginCoordinator = async (userData) => {
 const logout = () => {
     console.log('Logging out user')
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
 }
 
 const authService = {

@@ -11,6 +11,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getChallenges } from '../features/challenges/challengeSlice'
+import { getLeaderboard } from '../features/leaderboard/leaderboardSlice'
 import {
     Container,
     Paper,
@@ -24,7 +25,8 @@ import {
     List,
     ListItem,
     ListItemText,
-    Button
+    Button,
+    CircularProgress
 } from '@mui/material'
 import { FaTrophy, FaComments, FaArrowLeft, FaPlus } from 'react-icons/fa'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
@@ -33,32 +35,20 @@ import '../styles/pages.css'
 function C_ViewChallenge() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { challenges, isLoading } = useSelector((state) => state.challenge)
-
-    // Mock data for leaderboard
-    const leaderboard = [
-        { rank: 1, name: 'John Doe', score: 9500 },
-        { rank: 2, name: 'Jane Smith', score: 9200 },
-        { rank: 3, name: 'Mike Johnson', score: 8900 },
-        { rank: 4, name: 'Sarah Williams', score: 8500 },
-        { rank: 5, name: 'David Brown', score: 8200 },
-        { rank: 6, name: 'Emily Davis', score: 8100 },
-        { rank: 7, name: 'Michael Wilson', score: 8000 },
-        { rank: 8, name: 'Lisa Anderson', score: 7900 },
-        { rank: 9, name: 'James Taylor', score: 7800 },
-        { rank: 10, name: 'Emma Martinez', score: 7700 },
-        { rank: 11, name: 'Robert Garcia', score: 7600 },
-        { rank: 12, name: 'Sophia Lee', score: 7500 },
-        { rank: 13, name: 'William Clark', score: 7400 },
-        { rank: 14, name: 'Olivia Rodriguez', score: 7300 },
-        { rank: 15, name: 'Daniel White', score: 7200 }
-    ]
+    const { challenges, isLoading: challengesLoading } = useSelector((state) => state.challenge)
+    const { leaderboard, isLoading: leaderboardLoading } = useSelector((state) => state.leaderboard)
 
     useEffect(() => {
         dispatch(getChallenges())
     }, [dispatch])
 
-    if (!challenges || isLoading) {
+    useEffect(() => {
+        if (challenges && challenges.length > 0) {
+            dispatch(getLeaderboard(challenges[0]._id))
+        }
+    }, [dispatch, challenges])
+
+    if (!challenges || challengesLoading) {
         return <div>Loading...</div>
     }
 
@@ -88,7 +78,7 @@ function C_ViewChallenge() {
                 mt: 4,
                 textAlign: 'center'
             }}>
-                Challenges
+                {challenges[0]?.name || 'Challenges'}
             </Typography>
 
             <Box sx={{ 
@@ -196,28 +186,35 @@ function C_ViewChallenge() {
                                     },
                                 },
                             }}>
-                                {leaderboard.map((entry) => (
-                                    <React.Fragment key={entry.rank}>
-                                        <ListItem>
-                                            <ListItemText 
-                                                primary={
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                                        <Typography variant="body1" sx={{ fontWeight: 'bold', minWidth: '30px' }}>
-                                                            #{entry.rank}
-                                                        </Typography>
-                                                        <Typography variant="body1">
-                                                            {entry.name}
-                                                        </Typography>
-                                                        <Typography variant="body1" sx={{ marginLeft: 'auto' }}>
-                                                            {entry.score} pts
-                                                        </Typography>
-                                                    </Box>
-                                                }
-                                            />
-                                        </ListItem>
-                                        <Divider />
-                                    </React.Fragment>
-                                ))}
+                                {leaderboardLoading ? (
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                                        <CircularProgress />
+                                    </Box>
+                                ) : leaderboard && leaderboard.length > 0 ? (
+                                    leaderboard.map((entry, index) => (
+                                        <React.Fragment key={entry._id}>
+                                            <ListItem>
+                                                <ListItemText
+                                                    primary={
+                                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                            <Typography variant="body1">
+                                                                {index + 1}. {entry.participant.name}
+                                                            </Typography>
+                                                            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                                                                {entry.points} pts
+                                                            </Typography>
+                                                        </Box>
+                                                    }
+                                                />
+                                            </ListItem>
+                                            {index < leaderboard.length - 1 && <Divider />}
+                                        </React.Fragment>
+                                    ))
+                                ) : (
+                                    <ListItem>
+                                        <ListItemText primary="No participants enrolled yet" />
+                                    </ListItem>
+                                )}
                             </List>
                         </Paper>
                     </Grid>
