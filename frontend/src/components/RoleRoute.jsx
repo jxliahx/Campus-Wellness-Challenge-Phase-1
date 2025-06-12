@@ -6,12 +6,9 @@ const RoleRoute = ({ children }) => {
     const path = window.location.pathname
     // Extract the first part of the path after the first slash
     const firstPath = path.split('/')[1]
-    // Get the prefix (B_, P_, or C_)
-    const pagePrefix = firstPath ? firstPath.split('_')[0] : ''
 
     console.log('RoleRoute - Current path:', path)
     console.log('RoleRoute - First path:', firstPath)
-    console.log('RoleRoute - Page prefix:', pagePrefix)
     console.log('RoleRoute - User:', user)
 
     // If not logged in, redirect to login
@@ -46,8 +43,8 @@ const RoleRoute = ({ children }) => {
 
     // If logged in as participant
     if (isParticipant) {
-        // Allow access to B_ and P_ pages
-        if (pagePrefix === 'B' || pagePrefix === 'P') {
+        // Allow access to participant dashboard and related pages
+        if (firstPath === 'participant-dashboard' || firstPath === 'leaderboard') {
             console.log('RoleRoute - Participant accessing allowed page')
             return children
         }
@@ -58,8 +55,12 @@ const RoleRoute = ({ children }) => {
 
     // If logged in as coordinator
     if (isCoordinator) {
-        // Allow access to B_ and C_ pages
-        if (pagePrefix === 'B' || pagePrefix === 'C') {
+        // Allow access to coordinator pages
+        if (firstPath === 'coordinator-dashboard' || 
+            firstPath === 'create-challenge' || 
+            firstPath === 'enroll-participant' ||
+            firstPath === 'upload-resource' ||
+            firstPath === 'view-challenge') {
             console.log('RoleRoute - Coordinator accessing allowed page')
             return children
         }
@@ -73,4 +74,4 @@ const RoleRoute = ({ children }) => {
     return <Navigate to="/login" />
 }
 
-export default RoleRoute 
+export default RoleRoute

@@ -21,7 +21,7 @@ const createChallenge = asyncHandler(async (req, res) => {
         type,
         goal,
         frequency,
-        createdBy: req.coordinator.id
+        createdBy: req.user.id
     })
 
     if (challenge) {
@@ -36,7 +36,7 @@ const createChallenge = asyncHandler(async (req, res) => {
 // @route   GET /api/challenges
 // @access  Private
 const getChallenges = asyncHandler(async (req, res) => {
-    const challenges = await Challenge.find({ createdBy: req.coordinator.id })
+    const challenges = await Challenge.find({ createdBy: req.user.id })
     res.status(200).json(challenges)
 })
 
@@ -52,7 +52,7 @@ const getChallenge = asyncHandler(async (req, res) => {
     }
 
     // Check for coordinator
-    if (challenge.createdBy.toString() !== req.coordinator.id) {
+    if (challenge.createdBy.toString() !== req.user.id) {
         res.status(401)
         throw new Error('Not authorized')
     }

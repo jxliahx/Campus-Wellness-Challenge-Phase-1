@@ -4,7 +4,7 @@ const { createChallenge, getChallenges, getChallenge } = require('../controllers
 const { protect } = require('../middleware/authMiddleware')
 
 router.route('/')
-    .post(protect, )
+    .post(protect, createChallenge)
     .get(protect, getChallenges)
 
 router.route('/:id')

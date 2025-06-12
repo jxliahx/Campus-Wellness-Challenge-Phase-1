@@ -7,10 +7,10 @@
     For: Coordinators
 */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { createChallenge, reset } from '../features/challenges/challengeSlice'
+import { createChallenge } from '../features/challenges/challengeSlice'
 import { toast } from 'react-toastify'
 import {
     Container,
@@ -30,7 +30,7 @@ import { FaPlus } from 'react-icons/fa'
 import '../styles/pages.css'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 
-function CreateChallenge() {
+function C_CreateChallenge() {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -47,28 +47,6 @@ function CreateChallenge() {
     const dispatch = useDispatch()
 
     const { user } = useSelector((state) => state.auth)
-    const { isLoading, isError, isSuccess, message } = useSelector((state) => state.challenge)
-
-    // Check user role on component mount
-    useEffect(() => {
-        if (!user || user.role !== 'coordinator') {
-            navigate('/login')
-        }
-    }, [user, navigate])
-
-    // Handle form submission states
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success('Challenge created successfully!')
-            dispatch(reset())
-            navigate('/coordinator-dashboard')
-        }
-
-        if (isError) {
-            toast.error(message)
-            dispatch(reset())
-        }
-    }, [isError, isSuccess, message, navigate, dispatch])
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -77,7 +55,7 @@ function CreateChallenge() {
         }))
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
 
         // Validate form data
@@ -96,18 +74,20 @@ function CreateChallenge() {
             frequency
         }
 
-        dispatch(createChallenge(challengeData))
-    }
-
-    if (isLoading) {
-        return <div>Loading...</div>
+        try {
+            await dispatch(createChallenge(challengeData)).unwrap()
+            toast.success('Challenge created successfully!')
+            navigate('/coordinator-dashboard')
+        } catch (error) {
+            toast.error(error.message || 'Failed to create challenge')
+        }
     }
 
     return (
         <Container component="main" maxWidth="md" className="page-container" sx={{mt: 10}}>
             <Paper className="dashboard-container" sx={{ p: 4 }}>
                 {/* Back Arrow */}
-                <IconButton onClick={() => navigate('/view-challenge')} sx={{position: 'absolute', left: 450}}>
+                <IconButton onClick={() => navigate('/coordinator-dashboard')} sx={{position: 'absolute', left: 450}}>
                     <ArrowBackIosNewIcon />
                 </IconButton>
 
@@ -230,4 +210,4 @@ function CreateChallenge() {
     )
 }
 
-export default CreateChallenge
+export default C_CreateChallenge
