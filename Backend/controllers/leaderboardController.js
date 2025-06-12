@@ -70,7 +70,66 @@ const getLeaderboard = asyncHandler(async (req, res) => {
     res.status(200).json(leaderboard)
 })
 
+// @desc Get challenges for a specific participant
+// @route GET /api/leaderboard/participant
+// @access Private
+const getParticipantChallenges = async (req, res) => {
+    try {
+        console.log('Getting challenges for participant:', req.user._id)
+        
+        // Get all leaderboard entries for this participant
+        const leaderboardEntries = await Leaderboard.find({ 
+            participant: req.user._id 
+        })
+        .populate({
+            path: 'challenge',
+            model: 'Challenge',
+            select: 'name description type goal frequency startDate endDate status'
+        })
+        .lean()
+        
+        console.log('Found leaderboard entries:', JSON.stringify(leaderboardEntries, null, 2))
+
+        if (!leaderboardEntries || leaderboardEntries.length === 0) {
+            return res.status(200).json({
+                success: true,
+                data: []
+            })
+        }
+
+        // Format the response to include challenge details and points
+        const challenges = leaderboardEntries
+            .filter(entry => entry.challenge) // Filter out any entries where challenge population failed
+            .map(entry => ({
+                _id: entry.challenge._id,
+                name: entry.challenge.name,
+                description: entry.challenge.description,
+                type: entry.challenge.type,
+                goal: entry.challenge.goal,
+                frequency: entry.challenge.frequency,
+                startDate: entry.challenge.startDate,
+                endDate: entry.challenge.endDate,
+                status: entry.challenge.status,
+                points: entry.points
+            }))
+
+        console.log('Formatted challenges:', JSON.stringify(challenges, null, 2))
+
+        res.status(200).json({
+            success: true,
+            data: challenges
+        })
+    } catch (error) {
+        console.error('Error in getParticipantChallenges:', error)
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Error fetching participant challenges'
+        })
+    }
+}
+
 module.exports = {
     enrollParticipants,
-    getLeaderboard
+    getLeaderboard,
+    getParticipantChallenges
 } 
